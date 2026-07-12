@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preparación Física · El Proyecto</title>
+<style>
+  :root {
+    --bg: #FBFAF7;
+    --surface: #FFFFFF;
+    --ink: #221D1A;
+    --muted: #6E655E;
+    --line: #E7E1D8;
+    --accent: #B3202C;
+    --accent-ink: #FFFFFF;
+    --accent-soft: rgba(179, 32, 44, 0.07);
+    --green: #2E7D4F;
+    --green-soft: rgba(46, 125, 79, 0.10);
+    --code-bg: #F3F0EA;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161513;
+      --surface: #1F1D1A;
+      --ink: #EDE8E1;
+      --muted: #A39A90;
+      --line: #35312B;
+      --accent: #E2545E;
+      --accent-ink: #1A0A0C;
+      --accent-soft: rgba(226, 84, 94, 0.10);
+      --green: #5BB98C;
+      --green-soft: rgba(91, 185, 140, 0.12);
+      --code-bg: #29261F;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #FBFAF7; --surface: #FFFFFF; --ink: #221D1A; --muted: #6E655E;
+    --line: #E7E1D8; --accent: #B3202C; --accent-ink: #FFFFFF;
+    --accent-soft: rgba(179,32,44,0.07); --green: #2E7D4F;
+    --green-soft: rgba(46,125,79,0.10); --code-bg: #F3F0EA;
+  }
+  :root[data-theme="dark"] {
+    --bg: #161513; --surface: #1F1D1A; --ink: #EDE8E1; --muted: #A39A90;
+    --line: #35312B; --accent: #E2545E; --accent-ink: #1A0A0C;
+    --accent-soft: rgba(226,84,94,0.10); --green: #5BB98C;
+    --green-soft: rgba(91,185,140,0.12); --code-bg: #29261F;
+  }
+
+  html { background: var(--bg); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 40rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
+
+  h1, h2, h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    text-wrap: balance;
+    line-height: 1.15;
+  }
+  h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin: 0.5rem 0 0.75rem; }
+  h2 { font-size: 1.35rem; font-weight: 750; letter-spacing: -0.01em; margin: 0 0 1rem; }
+  h3 { font-size: 1.02rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+  p { margin: 0 0 1rem; }
+  a { color: var(--accent); }
+  strong { font-weight: 700; }
+
+  .eyebrow {
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .lede { font-size: 1.1rem; color: var(--muted); }
+
+  header.hero { padding: 2.5rem 0 1rem; border-bottom: 3px solid var(--ink); margin-bottom: 1rem; }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem;
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+    font-size: 0.75rem; color: var(--muted); margin-top: 1rem;
+  }
+
+  nav.toc { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1.25rem 0; }
+  nav.toc a {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.82rem; font-weight: 600; text-decoration: none;
+    color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 0.45rem 0.9rem;
+  }
+  nav.toc a:focus-visible, .card a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  section { padding: 2.25rem 0 0.5rem; scroll-margin-top: 1rem; }
+  section + section { border-top: 1px solid var(--line); margin-top: 1.5rem; }
+
+  ul { padding-left: 1.2rem; margin: 0 0 1rem; }
+  li { margin-bottom: 0.5rem; }
+  li::marker { color: var(--accent); }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 1rem 1.1rem; margin-bottom: 0.85rem;
+  }
+  .card h3 { margin: 0 0 0.3rem; }
+  .card p { margin: 0; font-size: 0.95rem; color: var(--muted); }
+
+  .route {
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+    font-size: 0.78rem; background: var(--code-bg);
+    padding: 0.15rem 0.45rem; border-radius: 5px; white-space: nowrap;
+  }
+
+  .pillars { display: grid; gap: 0.85rem; margin: 1.25rem 0; }
+  .pillar { border-left: 3px solid var(--accent); padding: 0.1rem 0 0.1rem 1rem; }
+  .pillar h3 { margin: 0 0 0.25rem; }
+  .pillar p { margin: 0; font-size: 0.95rem; color: var(--muted); }
+
+  .stack { display: grid; gap: 0.5rem; margin: 1.25rem 0; }
+  .layer {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    padding: 0.7rem 1rem; text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.9rem; font-weight: 600;
+  }
+  .layer small { display: block; font-weight: 400; color: var(--muted); font-size: 0.78rem; margin-top: 0.15rem; }
+  .layer.base { background: var(--green-soft); border-color: var(--green); }
+  .arrow { text-align: center; color: var(--muted); font-size: 0.9rem; line-height: 1; }
+
+  .phase { display: flex; gap: 1rem; margin-bottom: 1.4rem; }
+  .phase-num {
+    flex: 0 0 auto; width: 2rem; height: 2rem; border-radius: 50%;
+    background: var(--accent); color: var(--accent-ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 800; font-size: 0.95rem;
+    display: flex; align-items: center; justify-content: center; margin-top: 0.15rem;
+  }
+  .phase-body h3 { margin: 0 0 0.2rem; }
+  .phase-body .when {
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+    font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--green); display: block; margin-bottom: 0.35rem;
+  }
+  .phase-body p { margin: 0; font-size: 0.95rem; color: var(--muted); }
+
+  .callout {
+    background: var(--accent-soft); border: 1px solid var(--accent);
+    border-radius: 10px; padding: 1rem 1.1rem; margin: 1.25rem 0;
+    font-size: 0.95rem;
+  }
+  .callout.green { background: var(--green-soft); border-color: var(--green); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  dl.decisions { margin: 1rem 0; }
+  dl.decisions dt {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700; font-size: 0.95rem; margin-top: 1rem;
+  }
+  dl.decisions dd { margin: 0.2rem 0 0; font-size: 0.93rem; color: var(--muted); }
+
+  .sheets { display: grid; gap: 0.6rem; margin: 1rem 0; }
+  .sheet {
+    display: flex; align-items: baseline; gap: 0.75rem;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 8px; padding: 0.7rem 0.9rem;
+  }
+  .sheet .route { flex-shrink: 0; }
+  .sheet span:last-child { font-size: 0.88rem; color: var(--muted); }
+
+  footer {
+    margin-top: 3rem; padding-top: 1.5rem; border-top: 3px solid var(--ink);
+    font-size: 0.88rem; color: var(--muted);
+  }
+  footer code {
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+    font-size: 0.8rem; background: var(--code-bg); padding: 0.1rem 0.35rem; border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">Proyecto · Documento resumen</span>
+    <h1>Preparación física del club, con base científica y coste cero</h1>
+    <p class="lede">Un sistema serio para planificar y monitorizar al primer equipo y a todo el fútbol base, con Google Sheets como base de datos y una app web hecha a medida para los preparadores.</p>
+    <div class="hero-meta">
+      <span>Julio 2026</span>
+      <span>Docs 01–08 + 5 informes</span>
+      <span>Temporada objetivo: 2026-27</span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Secciones">
+    <a href="#pilares">Pilares</a>
+    <a href="#como">Cómo funciona</a>
+    <a href="#app">La app</a>
+    <a href="#datos">Los datos</a>
+    <a href="#metodo">El método</a>
+    <a href="#fases">Fases</a>
+    <a href="#decisiones">Decisiones</a>
+  </nav>
+
+  <section id="pilares">
+    <span class="eyebrow">Qué es</span>
+    <h2>Tres pilares, un sistema</h2>
+    <div class="pillars">
+      <div class="pillar">
+        <h3>Primer equipo</h3>
+        <p>Planificación de nivel profesional sin GPS: metodología Rafel Pol (la carga vive dentro del juego), microciclo alrededor del partido, y monitorización por RPE post-sesión y cuestionario de bienestar diario. Las sensaciones del jugador son el dato central.</p>
+      </div>
+      <div class="pillar">
+        <h3>Fútbol base</h3>
+        <p>Las 5+ categorías del club, compartidas entre los dos preparadores con un marco común: desarrollo a largo plazo por madurez (no por edad), calentamiento preventivo FIFA 11+ en todas las sesiones, y seguimiento del estirón (PHV) con una simple medición de altura trimestral.</p>
+      </div>
+      <div class="pillar">
+        <h3>Archivo histórico de lesiones</h3>
+        <p>Registro conforme a los estándares FIFA/UEFA e IOC, seudonimizado y con consentimiento de los tutores. Con los años se convierte en un activo del club: qué se lesiona cada categoría, cuánto cuesta en días de baja, y si la prevención funciona.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="como">
+    <span class="eyebrow">Arquitectura</span>
+    <h2>Cómo funciona por dentro</h2>
+    <p>El principio que ordena todo: <strong>Google Sheets es la única base de datos</strong> y la interfaz "de despacho". La web es una capa encima. Si la web desapareciera mañana, el sistema seguiría funcionando entero en Sheets.</p>
+    <div class="stack">
+      <div class="layer">Jugadores <small>formularios en el móvil: RPE y wellness, sin login, 15 segundos</small></div>
+      <div class="arrow">▼</div>
+      <div class="layer">App web de los preparadores <small>Next.js en Vercel · entran con su cuenta de Google (solo ellos dos)</small></div>
+      <div class="arrow">▼</div>
+      <div class="layer base">Google Sheets <small>4 archivos: la fuente de verdad, editable a mano siempre</small></div>
+    </div>
+    <ul>
+      <li><strong>Coste cero real:</strong> Sheets, Google Forms, Apps Script y el plan gratuito de Vercel. Sin suscripciones, sin tarjeta.</li>
+      <li><strong>La app se instala como una aplicación</strong> en el móvil (PWA): abre al instante y muestra los últimos datos aunque en el campo haya mala cobertura; lo que no se pueda enviar se reintenta solo.</li>
+      <li><strong>Sin migraciones nunca:</strong> cada fase del proyecto añade una capa sobre los mismos archivos.</li>
+    </ul>
+  </section>
+
+  <section id="app">
+    <span class="eyebrow">La aplicación</span>
+    <h2>Qué pantallas tendrá</h2>
+    <p>Diseñada para usarse <strong>de pie, en el campo, con una mano y a pleno sol</strong>: botones grandes, navegación inferior, alto contraste. El análisis tranquilo se hace en Sheets o en la pantalla de gráficas.</p>
+
+    <h3>Zona de los preparadores (con login)</h3>
+    <div class="card">
+      <h3>Hoy <span class="route">/</span></h3>
+      <p>Lo primero al abrir: sesiones de hoy por equipo, avisos de mediciones pendientes, jugadores en pleno estirón y lesionados activos.</p>
+    </div>
+    <div class="card">
+      <h3>Sesiones <span class="route">/sesiones</span></h3>
+      <p>La semana vista de cada equipo y el alta rápida de sesión en una sola pantalla: objetivo, calentamiento 11+, bloque principal y duración.</p>
+    </div>
+    <div class="card">
+      <h3>Pase de lista <span class="route">/sesiones/[id]/asistencia</span></h3>
+      <p>Toggles grandes de asistencia y minutos, pensado para hacerse en menos de un minuto al acabar. De aquí salen las horas de exposición que hacen comparables las lesiones.</p>
+    </div>
+    <div class="card">
+      <h3>Jugadores <span class="route">/jugadores</span></h3>
+      <p>Plantillas por equipo y ficha individual: altura y velocidad de crecimiento, estado madurativo (pre / durante / post estirón), historial de exposición y, más adelante, de lesiones.</p>
+    </div>
+    <div class="card">
+      <h3>Cargas <span class="route">/carga</span></h3>
+      <p>Las gráficas: exposición semanal, adherencia al calentamiento preventivo y, para el primer equipo, carga sRPE, monotonía y tendencia de wellness por jugador.</p>
+    </div>
+
+    <h3>Zona de los jugadores (sin login, fase 3)</h3>
+    <div class="card">
+      <h3>RPE post-sesión <span class="route">/rpe/[token]</span></h3>
+      <p>Cada jugador tiene su enlace personal. Rejilla de botones 0–10 y minutos: dos toques y enviado. Antes de esta fase, lo mismo se hace con Google Forms.</p>
+    </div>
+    <div class="card">
+      <h3>Wellness diario <span class="route">/wellness/[token]</span></h3>
+      <p>Cinco preguntas antes de entrenar (sueño, fatiga, dolor muscular, estrés, ánimo) en escala 1–5. Si un jugador cae respecto a su propia media, salta una bandera — que abre una conversación, no una decisión automática.</p>
+    </div>
+
+    <div class="callout">
+      <p><strong>El módulo de lesiones va aparte y llega el último.</strong> Solo dentro de la zona con login, con credenciales propias y registro de quién accede. En las primeras fases la app ni siquiera tiene llaves de ese archivo: es la garantía técnica de que los datos de salud de los menores quedan aislados.</p>
+    </div>
+  </section>
+
+  <section id="datos">
+    <span class="eyebrow">Base de datos</span>
+    <h2>Cuatro archivos de Sheets, cada uno con sus llaves</h2>
+    <div class="sheets">
+      <div class="sheet"><span class="route">MAESTRO_CLUB</span><span>jugadores con ID estable, equipos, mediciones de altura, control de consentimientos</span></div>
+      <div class="sheet"><span class="route">PRIMER_EQUIPO_26-27</span><span>sesiones, RPE, wellness, tests y análisis del primer equipo — uno por temporada</span></div>
+      <div class="sheet"><span class="route">BASE_CARGAS_26-27</span><span>planificación y asistencia de todo el fútbol base, compartido por los dos preparadores</span></div>
+      <div class="sheet"><span class="route">LESIONES_HISTORICO</span><span>permanente, solo IDs (nunca nombres), acceso restringido a personas concretas</span></div>
+    </div>
+    <ul>
+      <li>Cada jugador conserva su ID toda su vida en el club: el histórico aguanta años y cambios de categoría.</li>
+      <li>Las pestañas donde escriben los formularios no se tocan a mano; el análisis se calcula al lado con fórmulas.</li>
+      <li>Copia de seguridad automática cada semana y exportación mensual, con un pequeño script gratuito de Google.</li>
+    </ul>
+  </section>
+
+  <section id="metodo">
+    <span class="eyebrow">Metodología</span>
+    <h2>El método, en un minuto</h2>
+    <ul>
+      <li><strong>Semana tipo del primer equipo</strong> (martes–jueves–viernes + partido): martes fuerza en espacios reducidos, jueves el día pico de resistencia específica, viernes velocidad y estrategia con poco volumen. Un solo pico semanal, descarga hacia el partido.</li>
+      <li><strong>RPE de Foster:</strong> a los ~30 minutos de acabar, cada jugador responde "¿cómo ha sido tu entrenamiento?" (0–10). RPE × minutos = carga de la sesión. De ahí salen carga semanal, monotonía y strain.</li>
+      <li><strong>Wellness por tendencia individual:</strong> cada jugador se compara consigo mismo, nunca con umbrales universales. Coherente con el enfoque de Pol: el dato abre diálogo.</li>
+      <li><strong>Fútbol base por madurez:</strong> coordinación y velocidad en los pequeños, fuerza tras el estirón, potencia y prevención en juveniles. El estirón se detecta midiendo altura cada 3 meses.</li>
+      <li><strong>FIFA 11+ Kids / 11+</strong> como calentamiento oficial en todas las sesiones: es la prevención con mejor evidencia que existe (hasta −48% de lesiones, −74% de las graves, con buena adherencia).</li>
+      <li><strong>Lesiones al estándar internacional:</strong> se registra lo que causa baja, con desplegables cerrados (sin texto médico), y se mide en lesiones y días de baja por cada 1.000 horas de exposición.</li>
+    </ul>
+    <div class="callout green">
+      <p><strong>Requisito legal resuelto desde el diseño:</strong> las lesiones son datos de salud de menores. Consentimiento explícito de los tutores en la inscripción, solo IDs en el archivo, acceso restringido y plazo de conservación definido. Sin consentimiento, no se registra a ese jugador.</p>
+    </div>
+  </section>
+
+  <section id="fases">
+    <span class="eyebrow">Plan</span>
+    <h2>Cuatro fases, cada una útil por sí misma</h2>
+    <div class="phase">
+      <div class="phase-num">0</div>
+      <div class="phase-body">
+        <h3>Cimientos</h3>
+        <span class="when">Julio 2026 · antes de pretemporada</span>
+        <p>Cuenta Google del club, formulario de consentimiento, los 4 archivos de Sheets creados por script (un clic) y las plantillas de jugadores dadas de alta.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">1</div>
+      <div class="phase-body">
+        <h3>Sistema operativo en Sheets</h3>
+        <span class="when">Pretemporada · ago–sep 2026 · sin código</span>
+        <p>Google Forms de RPE y wellness con enlace personal por WhatsApp, análisis por fórmulas, tests iniciales, arranque del 11+ y del registro de lesiones, backups automáticos.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">2</div>
+      <div class="phase-body">
+        <h3>La app de los preparadores</h3>
+        <span class="when">Sep–dic 2026</span>
+        <p>Dashboard web del fútbol base: planificar, pasar lista y ver el estado de cada equipo desde el móvil. Login con Google, solo los dos preparadores.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">3</div>
+      <div class="phase-body">
+        <h3>Formularios propios y lesiones</h3>
+        <span class="when">2027</span>
+        <p>Los jugadores pasan de Google Forms a las páginas propias con su enlace-token, y el módulo de lesiones entra en la app con registro de accesos. Primer informe interanual.</p>
+      </div>
+    </div>
+    <p>Regla de avance: no se empieza una fase hasta que la anterior lleva un mes rodando sin fricción.</p>
+  </section>
+
+  <section id="decisiones">
+    <span class="eyebrow">Técnica</span>
+    <h2>Decisiones técnicas clave (y su porqué)</h2>
+    <dl class="decisions">
+      <dt>Next.js 16 + Vercel gratuito</dt>
+      <dd>Stack moderno verificado a julio 2026, deploy automático con cada cambio, y margen de sobra en el plan gratuito para dos usuarios.</dd>
+      <dt>Login con Google + lista de 2 emails</dt>
+      <dd>Sin contraseñas que gestionar. Quitar o añadir un preparador es editar una variable. La app accede a Sheets con su propia identidad de servicio, con el mínimo privilegio.</dd>
+      <dt>Caché de 60 segundos sobre la API de Sheets</dt>
+      <dd>La app va rápida, el consumo queda 10 veces por debajo de la cuota gratuita de Google, y quien escribe ve su cambio al instante.</dd>
+      <dt>Instalable y tolerante a mala cobertura</dt>
+      <dd>PWA con lo justo: abre sin red mostrando lo último cargado y reintenta los envíos pendientes. Se descartó el modo offline completo: complejidad que dos usuarios no necesitan.</dd>
+      <dt>Tests solo donde duelen</dt>
+      <dd>Las fórmulas de carga y madurez (sRPE, monotonía, Mirwald) se testean contra casos publicados: un error ahí significa decisiones equivocadas sobre menores. La UI se verifica usándola.</dd>
+      <dt>Operación de una hora al año</dt>
+      <dd>Checklist de cambio de temporada: rotar la llave, generar los archivos nuevos por script, revisar permisos y backups. Todo documentado para que no dependa de la memoria de nadie.</dd>
+    </dl>
+  </section>
+
+  <footer>
+    <p>Documentación completa en el proyecto: <code>docs/01</code> visión · <code>docs/02</code> datos · <code>docs/03</code> arquitectura · <code>docs/04</code> metodología · <code>docs/05</code> plan · <code>docs/06</code> decisiones · <code>docs/07</code> plataforma · <code>docs/08</code> despliegue, más 5 informes de investigación con fuentes en <code>docs/research/</code>.</p>
+  </footer>
+</div>
+
+</html>
