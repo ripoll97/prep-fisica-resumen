@@ -15,52 +15,56 @@
     --accent-soft: rgba(179, 32, 44, 0.07);
     --green: #2E7D4F;
     --green-soft: rgba(46, 125, 79, 0.10);
+    --amber: #9A6A00;
+    --amber-soft: rgba(154, 106, 0, 0.12);
+    --data: #3E6990;
+    --data-soft: rgba(62, 105, 144, 0.14);
     --code-bg: #F3F0EA;
+    --app-bg: #F4F2ED;
+    --app-surface: #FFFFFF;
+    --app-line: #E4DFD6;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #161513;
-      --surface: #1F1D1A;
-      --ink: #EDE8E1;
-      --muted: #A39A90;
-      --line: #35312B;
-      --accent: #E2545E;
-      --accent-ink: #1A0A0C;
+      --bg: #161513; --surface: #1F1D1A; --ink: #EDE8E1; --muted: #A39A90;
+      --line: #35312B; --accent: #E2545E; --accent-ink: #1A0A0C;
       --accent-soft: rgba(226, 84, 94, 0.10);
-      --green: #5BB98C;
-      --green-soft: rgba(91, 185, 140, 0.12);
+      --green: #5BB98C; --green-soft: rgba(91, 185, 140, 0.12);
+      --amber: #D9A43B; --amber-soft: rgba(217, 164, 59, 0.14);
+      --data: #7FA6C9; --data-soft: rgba(127, 166, 201, 0.16);
       --code-bg: #29261F;
+      --app-bg: #121110; --app-surface: #1D1B18; --app-line: #33302A;
     }
   }
   :root[data-theme="light"] {
     --bg: #FBFAF7; --surface: #FFFFFF; --ink: #221D1A; --muted: #6E655E;
     --line: #E7E1D8; --accent: #B3202C; --accent-ink: #FFFFFF;
-    --accent-soft: rgba(179,32,44,0.07); --green: #2E7D4F;
-    --green-soft: rgba(46,125,79,0.10); --code-bg: #F3F0EA;
+    --accent-soft: rgba(179,32,44,0.07); --green: #2E7D4F; --green-soft: rgba(46,125,79,0.10);
+    --amber: #9A6A00; --amber-soft: rgba(154,106,0,0.12);
+    --data: #3E6990; --data-soft: rgba(62,105,144,0.14);
+    --code-bg: #F3F0EA; --app-bg: #F4F2ED; --app-surface: #FFFFFF; --app-line: #E4DFD6;
   }
   :root[data-theme="dark"] {
     --bg: #161513; --surface: #1F1D1A; --ink: #EDE8E1; --muted: #A39A90;
     --line: #35312B; --accent: #E2545E; --accent-ink: #1A0A0C;
-    --accent-soft: rgba(226,84,94,0.10); --green: #5BB98C;
-    --green-soft: rgba(91,185,140,0.12); --code-bg: #29261F;
+    --accent-soft: rgba(226,84,94,0.10); --green: #5BB98C; --green-soft: rgba(91,185,140,0.12);
+    --amber: #D9A43B; --amber-soft: rgba(217,164,59,0.14);
+    --data: #7FA6C9; --data-soft: rgba(127,166,201,0.16);
+    --code-bg: #29261F; --app-bg: #121110; --app-surface: #1D1B18; --app-line: #33302A;
   }
 
   html { background: var(--bg); }
   body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
+    margin: 0; background: var(--bg); color: var(--ink);
     font-family: Georgia, 'Times New Roman', serif;
-    font-size: 17px;
-    line-height: 1.65;
+    font-size: 17px; line-height: 1.65;
     -webkit-font-smoothing: antialiased;
   }
   .wrap { max-width: 40rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
 
   h1, h2, h3 {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    text-wrap: balance;
-    line-height: 1.15;
+    text-wrap: balance; line-height: 1.15;
   }
   h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin: 0.5rem 0 0.75rem; }
   h2 { font-size: 1.35rem; font-weight: 750; letter-spacing: -0.01em; margin: 0 0 1rem; }
@@ -71,12 +75,8 @@
 
   .eyebrow {
     font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    display: block;
-    margin-bottom: 0.4rem;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); display: block; margin-bottom: 0.4rem;
   }
   .lede { font-size: 1.1rem; color: var(--muted); }
 
@@ -92,10 +92,9 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.82rem; font-weight: 600; text-decoration: none;
     color: var(--ink); background: var(--surface);
-    border: 1px solid var(--line); border-radius: 999px;
-    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--line); border-radius: 999px; padding: 0.45rem 0.9rem;
   }
-  nav.toc a:focus-visible, .card a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  nav.toc a:focus-visible, .card a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   section { padding: 2.25rem 0 0.5rem; scroll-margin-top: 1rem; }
   section + section { border-top: 1px solid var(--line); margin-top: 1.5rem; }
@@ -151,8 +150,7 @@
 
   .callout {
     background: var(--accent-soft); border: 1px solid var(--accent);
-    border-radius: 10px; padding: 1rem 1.1rem; margin: 1.25rem 0;
-    font-size: 0.95rem;
+    border-radius: 10px; padding: 1rem 1.1rem; margin: 1.25rem 0; font-size: 0.95rem;
   }
   .callout.green { background: var(--green-soft); border-color: var(--green); }
   .callout p:last-child { margin-bottom: 0; }
@@ -164,15 +162,6 @@
   }
   dl.decisions dd { margin: 0.2rem 0 0; font-size: 0.93rem; color: var(--muted); }
 
-  .sheets { display: grid; gap: 0.6rem; margin: 1rem 0; }
-  .sheet {
-    display: flex; align-items: baseline; gap: 0.75rem;
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: 8px; padding: 0.7rem 0.9rem;
-  }
-  .sheet .route { flex-shrink: 0; }
-  .sheet span:last-child { font-size: 0.88rem; color: var(--muted); }
-
   footer {
     margin-top: 3rem; padding-top: 1.5rem; border-top: 3px solid var(--ink);
     font-size: 0.88rem; color: var(--muted);
@@ -181,8 +170,186 @@
     font-family: ui-monospace, 'SF Mono', Consolas, monospace;
     font-size: 0.8rem; background: var(--code-bg); padding: 0.1rem 0.35rem; border-radius: 4px;
   }
-  @media (prefers-reduced-motion: no-preference) {
-    html { scroll-behavior: smooth; }
+
+  /* ============ SIMULACIÓN: teléfonos ============ */
+  .demo-note {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.8rem; color: var(--muted);
+    display: flex; align-items: center; gap: 0.5rem; margin: 0 0 1rem;
+  }
+  .demo-note .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex: 0 0 auto; }
+
+  .phones {
+    display: flex; gap: 1.1rem; overflow-x: auto;
+    scroll-snap-type: x mandatory; padding: 0.25rem 0.1rem 1.1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .phone-wrap { flex: 0 0 auto; scroll-snap-align: center; width: 272px; }
+  .phone-caption {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.8rem; color: var(--muted); text-align: center; margin-top: 0.6rem; line-height: 1.4;
+  }
+  .phone-caption b { color: var(--ink); }
+  .phone {
+    border: 2px solid var(--ink); border-radius: 26px; background: var(--app-bg);
+    overflow: hidden; height: 566px; display: flex; flex-direction: column;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  .statusbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 16px 4px; font-size: 10.5px; font-weight: 600; color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .app-head { padding: 6px 14px 10px; }
+  .app-head .app-title { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+  .app-head .app-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .app-body { flex: 1; padding: 0 12px; overflow: hidden; display: flex; flex-direction: column; gap: 8px; }
+
+  .app-card {
+    background: var(--app-surface); border: 1px solid var(--app-line);
+    border-radius: 12px; padding: 10px 12px;
+  }
+  .app-card .k {
+    font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .sess { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+  .sess + .sess { border-top: 1px solid var(--app-line); }
+  .sess .hora { font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; width: 38px; }
+  .sess .que { flex: 1; min-width: 0; }
+  .sess .que b { display: block; font-size: 12px; }
+  .sess .que span { display: block; font-size: 10.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mini-btn {
+    font-size: 10px; font-weight: 700; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 999px; padding: 3px 8px; white-space: nowrap;
+  }
+  .aviso { display: flex; gap: 7px; align-items: flex-start; padding: 5px 0; font-size: 11.5px; }
+  .aviso + .aviso { border-top: 1px solid var(--app-line); }
+  .aviso .adot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex: 0 0 auto; }
+  .adot.warn { background: var(--amber); }
+  .adot.crit { background: var(--accent); }
+  .adot.info { background: var(--data); }
+  .aviso span { color: var(--muted); }
+  .aviso b { color: var(--ink); }
+
+  .navbar {
+    display: flex; border-top: 1px solid var(--app-line); background: var(--app-surface);
+    padding: 6px 4px calc(8px + 4px);
+  }
+  .navbar div {
+    flex: 1; text-align: center; font-size: 9px; font-weight: 600; color: var(--muted);
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  .navbar div.on { color: var(--accent); }
+  .navbar svg { width: 20px; height: 20px; }
+
+  /* pase de lista */
+  .att-row {
+    display: flex; align-items: center; gap: 8px; padding: 7px 2px;
+    border-bottom: 1px solid var(--app-line); cursor: pointer; user-select: none;
+  }
+  .att-row .nom { flex: 1; font-size: 12.5px; font-weight: 600; }
+  .att-row .min { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .toggle {
+    width: 34px; height: 20px; border-radius: 999px; background: var(--green);
+    position: relative; transition: background 0.15s; flex: 0 0 auto;
+  }
+  .toggle::after {
+    content: ""; position: absolute; top: 2px; left: 16px; width: 16px; height: 16px;
+    border-radius: 50%; background: #fff; transition: left 0.15s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  }
+  .att-row.off .toggle { background: var(--app-line); }
+  .att-row.off .toggle::after { left: 2px; }
+  .att-row.off .nom { color: var(--muted); text-decoration: line-through; }
+  .big-btn {
+    background: var(--accent); color: var(--accent-ink); border: none; border-radius: 12px;
+    font-size: 13px; font-weight: 800; padding: 12px; width: 100%; margin-top: auto;
+    font-family: inherit; cursor: pointer;
+  }
+
+  /* ficha jugador */
+  .chip {
+    display: inline-block; font-size: 9.5px; font-weight: 800; letter-spacing: 0.04em;
+    padding: 3px 8px; border-radius: 999px; text-transform: uppercase;
+  }
+  .chip.warn { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber); }
+  .chip.ok { background: var(--green-soft); color: var(--green); border: 1px solid var(--green); }
+  .facts { display: flex; gap: 6px; margin-top: 8px; }
+  .fact { flex: 1; background: var(--app-surface); border: 1px solid var(--app-line); border-radius: 10px; padding: 7px 8px; text-align: center; }
+  .fact b { display: block; font-size: 14px; font-variant-numeric: tabular-nums; }
+  .fact span { font-size: 8.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .spark-note { font-size: 10px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+  .spark-note b { color: var(--amber); }
+
+  /* rpe público */
+  .rpe-q { font-size: 16px; font-weight: 800; line-height: 1.25; margin: 4px 0 10px; }
+  .rpe-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .rpe-btn {
+    aspect-ratio: 1.15; border-radius: 12px; border: 1px solid var(--app-line);
+    background: var(--app-surface); font-size: 16px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit; cursor: pointer; color: var(--ink);
+  }
+  .rpe-btn.sel { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .rpe-scale-hint { display: flex; justify-content: space-between; font-size: 9px; color: var(--muted); margin: 5px 2px 0; }
+  .min-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; background: var(--app-surface); border: 1px solid var(--app-line); border-radius: 12px; padding: 9px 12px; }
+  .min-row b { font-size: 15px; font-variant-numeric: tabular-nums; }
+  .min-row span { font-size: 11px; color: var(--muted); }
+
+  /* ============ Gráficos ============ */
+  .chart-svg { display: block; width: 100%; height: auto; }
+  .chart-title { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+
+  /* microciclo */
+  .micro { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.1rem 0.9rem; margin: 1.25rem 0; }
+  .micro .chart-title { font-size: 0.72rem; color: var(--muted); }
+  .micro-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin-top: 0.6rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.75rem; color: var(--muted); }
+  .micro-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+
+  /* ============ Estructura de datos ============ */
+  .id-legend {
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.85rem; color: var(--muted); margin: 0 0 1rem;
+  }
+  .idtag {
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 0.72rem; font-weight: 700;
+    background: var(--data-soft); color: var(--data); border: 1px solid var(--data);
+    border-radius: 5px; padding: 0.1rem 0.4rem; white-space: nowrap;
+  }
+  .db { position: relative; padding-left: 1.1rem; }
+  .db::before { content: ""; position: absolute; left: 4px; top: 12px; bottom: 12px; width: 2px; background: var(--data); opacity: 0.35; border-radius: 2px; }
+  .db-file { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 0.9rem; }
+  .db-file::before { content: ""; position: absolute; left: -1.1rem; top: 1.15rem; width: 0.65rem; height: 2px; background: var(--data); opacity: 0.35; margin-left: 4px; }
+  .db-head { display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .db-head .route { font-weight: 700; }
+  .db-head .lock {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.68rem; font-weight: 700; color: var(--accent);
+    border: 1px solid var(--accent); background: var(--accent-soft);
+    border-radius: 999px; padding: 0.1rem 0.5rem; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .db-head .who { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.72rem; color: var(--muted); }
+  .db-file .note { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.8rem; color: var(--muted); margin: 0.5rem 0 0; }
+  .tbl-scroll { overflow-x: auto; }
+  table.mini {
+    border-collapse: collapse; width: 100%; min-width: 320px;
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+  }
+  table.mini th {
+    text-align: left; font-weight: 700; color: var(--muted); background: var(--code-bg);
+    padding: 0.3rem 0.55rem; border: 1px solid var(--line); white-space: nowrap;
+  }
+  table.mini td { padding: 0.3rem 0.55rem; border: 1px solid var(--line); white-space: nowrap; }
+  table.mini td.pid { background: var(--data-soft); color: var(--data); font-weight: 700; }
+  table.mini td.dim { color: var(--muted); }
+
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  @media (prefers-reduced-motion: reduce) {
+    .toggle, .toggle::after { transition: none; }
   }
 </style>
 
@@ -246,41 +413,226 @@
   </section>
 
   <section id="app">
-    <span class="eyebrow">La aplicación</span>
-    <h2>Qué pantallas tendrá</h2>
-    <p>Diseñada para usarse <strong>de pie, en el campo, con una mano y a pleno sol</strong>: botones grandes, navegación inferior, alto contraste. El análisis tranquilo se hace en Sheets o en la pantalla de gráficas.</p>
+    <span class="eyebrow">Simulación</span>
+    <h2>Así se verá en el móvil</h2>
+    <p>Cinco pantallas simuladas con datos ficticios, diseñadas para usarse <strong>de pie, en el campo, con una mano y a pleno sol</strong>: botones grandes, navegación inferior, alto contraste.</p>
+    <p class="demo-note"><span class="dot"></span>Desliza para ver las pantallas. En "Pase de lista" y "RPE" puedes tocar: los toggles y los números responden.</p>
 
-    <h3>Zona de los preparadores (con login)</h3>
-    <div class="card">
-      <h3>Hoy <span class="route">/</span></h3>
-      <p>Lo primero al abrir: sesiones de hoy por equipo, avisos de mediciones pendientes, jugadores en pleno estirón y lesionados activos.</p>
-    </div>
-    <div class="card">
-      <h3>Sesiones <span class="route">/sesiones</span></h3>
-      <p>La semana vista de cada equipo y el alta rápida de sesión en una sola pantalla: objetivo, calentamiento 11+, bloque principal y duración.</p>
-    </div>
-    <div class="card">
-      <h3>Pase de lista <span class="route">/sesiones/[id]/asistencia</span></h3>
-      <p>Toggles grandes de asistencia y minutos, pensado para hacerse en menos de un minuto al acabar. De aquí salen las horas de exposición que hacen comparables las lesiones.</p>
-    </div>
-    <div class="card">
-      <h3>Jugadores <span class="route">/jugadores</span></h3>
-      <p>Plantillas por equipo y ficha individual: altura y velocidad de crecimiento, estado madurativo (pre / durante / post estirón), historial de exposición y, más adelante, de lesiones.</p>
-    </div>
-    <div class="card">
-      <h3>Cargas <span class="route">/carga</span></h3>
-      <p>Las gráficas: exposición semanal, adherencia al calentamiento preventivo y, para el primer equipo, carga sRPE, monotonía y tendencia de wellness por jugador.</p>
+    <div class="phones" aria-label="Simulación de pantallas de la app">
+
+      <!-- ================= PANTALLA 1: HOY ================= -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="statusbar"><span>18:04</span><span>●●●●</span></div>
+          <div class="app-head">
+            <div class="app-title">Hoy</div>
+            <div class="app-sub">Miércoles 9 de septiembre · 2026-27</div>
+          </div>
+          <div class="app-body">
+            <div class="app-card">
+              <div class="k">Sesiones de hoy</div>
+              <div class="sess">
+                <span class="hora">18:00</span>
+                <span class="que"><b>Infantil A</b><span>11+ Kids N3 · aceleración 10 m</span></span>
+                <span class="mini-btn">Pasar lista</span>
+              </div>
+              <div class="sess">
+                <span class="hora">19:30</span>
+                <span class="que"><b>Cadete B</b><span>FIFA 11+ · fuerza básica + juego</span></span>
+                <span class="mini-btn">Pasar lista</span>
+              </div>
+            </div>
+            <div class="app-card">
+              <div class="k">Avisos</div>
+              <div class="aviso"><span class="adot warn"></span><span><b>2 jugadores en pleno estirón</b> (Infantil A) — moderar volumen de impacto</span></div>
+              <div class="aviso"><span class="adot crit"></span><span><b>1 lesionado activo</b> (Cadete B) — esguince tobillo, día 6</span></div>
+              <div class="aviso"><span class="adot info"></span><span><b>Medición trimestral pendiente</b> — Alevín B, antes del 20 sep</span></div>
+            </div>
+            <div class="app-card">
+              <div class="k">Esta semana · fútbol base</div>
+              <div class="aviso"><span class="adot info"></span><span><b>9 sesiones</b> planificadas · adherencia 11+ <b>92%</b></span></div>
+            </div>
+          </div>
+          <div class="navbar">
+            <div class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Hoy</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Sesiones</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.2 3.4-5 6.5-5s5.7 1.8 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M15.5 15.3c2.8.2 5 1.7 5.8 4.7"/></svg>Jugadores</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Cargas</div>
+          </div>
+        </div>
+        <div class="phone-caption"><b>Hoy</b> — lo primero al abrir: sesiones del día y avisos que requieren atención.</div>
+      </div>
+
+      <!-- ================= PANTALLA 2: PASE DE LISTA ================= -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="statusbar"><span>19:22</span><span>●●●●</span></div>
+          <div class="app-head">
+            <div class="app-title">Pase de lista</div>
+            <div class="app-sub">Infantil A · mié 9 sep · 75 min</div>
+          </div>
+          <div class="app-body" id="att-list">
+            <div class="app-card" style="flex:1; overflow:hidden;">
+              <div class="k">Toca para marcar ausencia</div>
+              <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Marc P.</span><span class="min">75'</span><span class="toggle"></span></div>
+              <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Biel S.</span><span class="min">75'</span><span class="toggle"></span></div>
+              <div class="att-row off" role="switch" aria-checked="false" tabindex="0"><span class="nom">Toni M.</span><span class="min">—</span><span class="toggle"></span></div>
+              <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Pau R.</span><span class="min">75'</span><span class="toggle"></span></div>
+              <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Joan F.</span><span class="min">75'</span><span class="toggle"></span></div>
+              <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Lluc B.</span><span class="min">75'</span><span class="toggle"></span></div>
+              <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Nico A.</span><span class="min">75'</span><span class="toggle"></span></div>
+            </div>
+            <button class="big-btn" type="button">Guardar asistencia (<span id="att-count">6</span>/7)</button>
+          </div>
+          <div class="navbar">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Hoy</div>
+            <div class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Sesiones</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.2 3.4-5 6.5-5s5.7 1.8 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M15.5 15.3c2.8.2 5 1.7 5.8 4.7"/></svg>Jugadores</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Cargas</div>
+          </div>
+        </div>
+        <div class="phone-caption"><b>Pase de lista</b> — menos de un minuto al acabar. De aquí salen las horas de exposición.</div>
+      </div>
+
+      <!-- ================= PANTALLA 3: FICHA JUGADOR ================= -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="statusbar"><span>10:15</span><span>●●●●</span></div>
+          <div class="app-head">
+            <div class="app-title">Marc P. <span class="chip warn">circa-PHV</span></div>
+            <div class="app-sub">J-0007 · Infantil A · 13,4 años</div>
+          </div>
+          <div class="app-body">
+            <div class="facts">
+              <div class="fact"><b>162</b><span>cm</span></div>
+              <div class="fact"><b>8,2</b><span>cm/año</span></div>
+              <div class="fact"><b>24 h</b><span>expo/mes</span></div>
+            </div>
+            <div class="app-card">
+              <div class="chart-title">Altura · mediciones trimestrales</div>
+              <svg class="chart-svg" viewBox="0 0 232 84" role="img" aria-label="Gráfica de altura: de 152 a 162 centímetros en cuatro mediciones trimestrales, crecimiento acelerado">
+                <line x1="8" y1="70" x2="224" y2="70" stroke="var(--app-line)" stroke-width="1"/>
+                <polyline points="20,60 84,52 148,36 212,14" fill="none" stroke="var(--data)" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="20" cy="60" r="3.5" fill="var(--data)"/>
+                <circle cx="84" cy="52" r="3.5" fill="var(--data)"/>
+                <circle cx="148" cy="36" r="3.5" fill="var(--data)"/>
+                <circle cx="212" cy="14" r="4.5" fill="var(--amber)" stroke="var(--app-surface)" stroke-width="2"/>
+                <text x="20" y="80" font-size="8" fill="var(--muted)" text-anchor="middle">sep</text>
+                <text x="84" y="80" font-size="8" fill="var(--muted)" text-anchor="middle">dic</text>
+                <text x="148" y="80" font-size="8" fill="var(--muted)" text-anchor="middle">mar</text>
+                <text x="212" y="80" font-size="8" fill="var(--muted)" text-anchor="middle">jun</text>
+                <text x="212" y="8" font-size="9" font-weight="700" fill="var(--ink)" text-anchor="end">162 cm</text>
+              </svg>
+              <div class="spark-note"><b>&gt; 7 cm/año → pleno estirón.</b> Reducir volumen de impacto y vigilar rodilla (Osgood-Schlatter) y talón (Sever).</div>
+            </div>
+            <div class="app-card">
+              <div class="chart-title">Historial</div>
+              <div class="aviso"><span class="adot crit"></span><span><b>Rodilla · lesión de crecimiento</b> · 12 días de baja · marzo 2027</span></div>
+              <div class="aviso"><span class="adot info"></span><span><b>11+ Kids:</b> nivel 4 de 5 · buena ejecución</span></div>
+            </div>
+          </div>
+          <div class="navbar">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Hoy</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Sesiones</div>
+            <div class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.2 3.4-5 6.5-5s5.7 1.8 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M15.5 15.3c2.8.2 5 1.7 5.8 4.7"/></svg>Jugadores</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Cargas</div>
+          </div>
+        </div>
+        <div class="phone-caption"><b>Ficha de jugador</b> — la madurez manda: el estirón se ve venir midiendo altura cada trimestre.</div>
+      </div>
+
+      <!-- ================= PANTALLA 4: CARGAS ================= -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="statusbar"><span>21:40</span><span>●●●●</span></div>
+          <div class="app-head">
+            <div class="app-title">Cargas</div>
+            <div class="app-sub">Primer equipo · últimas 6 semanas</div>
+          </div>
+          <div class="app-body">
+            <div class="app-card">
+              <div class="chart-title">Carga semanal del equipo (sRPE, UA)</div>
+              <svg class="chart-svg" viewBox="0 0 232 110" role="img" aria-label="Barras de carga semanal: seis semanas entre 1480 y 2310 unidades arbitrarias, con una semana de descarga">
+                <line x1="6" y1="92" x2="226" y2="92" stroke="var(--app-line)" stroke-width="1"/>
+                <g fill="var(--data)">
+                  <rect x="12"  y="34" width="26" height="58" rx="4"/>
+                  <rect x="48"  y="26" width="26" height="66" rx="4"/>
+                  <rect x="84"  y="21" width="26" height="71" rx="4"/>
+                  <rect x="120" y="46" width="26" height="46" rx="4" opacity="0.45"/>
+                  <rect x="156" y="19" width="26" height="73" rx="4"/>
+                  <rect x="192" y="29" width="26" height="63" rx="4"/>
+                </g>
+                <text x="133" y="42" font-size="8" fill="var(--muted)" text-anchor="middle">descarga</text>
+                <text x="169" y="15" font-size="9" font-weight="700" fill="var(--ink)" text-anchor="middle">2310</text>
+                <text x="25" y="102" font-size="8" fill="var(--muted)" text-anchor="middle">S1</text>
+                <text x="61" y="102" font-size="8" fill="var(--muted)" text-anchor="middle">S2</text>
+                <text x="97" y="102" font-size="8" fill="var(--muted)" text-anchor="middle">S3</text>
+                <text x="133" y="102" font-size="8" fill="var(--muted)" text-anchor="middle">S4</text>
+                <text x="169" y="102" font-size="8" fill="var(--muted)" text-anchor="middle">S5</text>
+                <text x="205" y="102" font-size="8" fill="var(--muted)" text-anchor="middle">S6</text>
+              </svg>
+            </div>
+            <div class="facts">
+              <div class="fact"><b>1,4</b><span>monotonía <span class="chip ok" style="display:block;margin-top:3px;">ok &lt; 2</span></span></div>
+              <div class="fact"><b>86%</b><span>respuesta RPE</span></div>
+            </div>
+            <div class="app-card">
+              <div class="k">Banderas de wellness · hoy</div>
+              <div class="aviso"><span class="adot warn"></span><span><b>1 jugador</b> ha caído &gt;1 DE respecto a su media — hablar antes de la sesión</span></div>
+            </div>
+          </div>
+          <div class="navbar">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Hoy</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Sesiones</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.2 3.4-5 6.5-5s5.7 1.8 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M15.5 15.3c2.8.2 5 1.7 5.8 4.7"/></svg>Jugadores</div>
+            <div class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Cargas</div>
+          </div>
+        </div>
+        <div class="phone-caption"><b>Cargas</b> — la semana de descarga se ve; la monotonía baja confirma que se alternan días duros y suaves.</div>
+      </div>
+
+      <!-- ================= PANTALLA 5: RPE JUGADOR ================= -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="statusbar"><span>22:47</span><span>●●●●</span></div>
+          <div class="app-head">
+            <div class="app-title">Hola, Andreu</div>
+            <div class="app-sub">Primer equipo · sesión del jueves 17 sep</div>
+          </div>
+          <div class="app-body" id="rpe-screen">
+            <div class="rpe-q">¿Cómo ha sido tu entrenamiento?</div>
+            <div class="rpe-grid" role="radiogroup" aria-label="RPE 0 a 10">
+              <button class="rpe-btn" type="button">0</button>
+              <button class="rpe-btn" type="button">1</button>
+              <button class="rpe-btn" type="button">2</button>
+              <button class="rpe-btn" type="button">3</button>
+              <button class="rpe-btn" type="button">4</button>
+              <button class="rpe-btn" type="button">5</button>
+              <button class="rpe-btn" type="button">6</button>
+              <button class="rpe-btn sel" type="button">7</button>
+              <button class="rpe-btn" type="button">8</button>
+              <button class="rpe-btn" type="button">9</button>
+              <button class="rpe-btn" type="button">10</button>
+            </div>
+            <div class="rpe-scale-hint"><span>0 · reposo</span><span>10 · máximo</span></div>
+            <div class="min-row"><span>Minutos de sesión</span><b>85</b></div>
+            <button class="big-btn" type="button">Enviar — 15 segundos y listo</button>
+          </div>
+          <div class="navbar" style="justify-content:center;">
+            <div style="flex:0 1 auto; font-size:9px; color:var(--muted); flex-direction:row; gap:4px;">enlace personal · sin login · sin app que instalar</div>
+          </div>
+        </div>
+        <div class="phone-caption"><b>RPE del jugador</b> — cada jugador tiene su enlace. Responde ~30 min después de entrenar.</div>
+      </div>
     </div>
 
-    <h3>Zona de los jugadores (sin login, fase 3)</h3>
-    <div class="card">
-      <h3>RPE post-sesión <span class="route">/rpe/[token]</span></h3>
-      <p>Cada jugador tiene su enlace personal. Rejilla de botones 0–10 y minutos: dos toques y enviado. Antes de esta fase, lo mismo se hace con Google Forms.</p>
-    </div>
-    <div class="card">
-      <h3>Wellness diario <span class="route">/wellness/[token]</span></h3>
-      <p>Cinco preguntas antes de entrenar (sueño, fatiga, dolor muscular, estrés, ánimo) en escala 1–5. Si un jugador cae respecto a su propia media, salta una bandera — que abre una conversación, no una decisión automática.</p>
-    </div>
+    <h3>Todas las pantallas</h3>
+    <div class="card"><h3>Hoy <span class="route">/</span></h3><p>Sesiones del día, avisos de madurez y lesiones, estado de la semana.</p></div>
+    <div class="card"><h3>Sesiones <span class="route">/sesiones</span></h3><p>Semana vista por equipo y alta rápida de sesión en una pantalla: objetivo, calentamiento 11+, bloque principal, duración.</p></div>
+    <div class="card"><h3>Pase de lista <span class="route">/sesiones/[id]/asistencia</span></h3><p>Asistencia y minutos con toggles grandes.</p></div>
+    <div class="card"><h3>Jugadores <span class="route">/jugadores</span></h3><p>Plantillas y ficha individual con madurez, exposición y (fase 3) lesiones.</p></div>
+    <div class="card"><h3>Cargas <span class="route">/carga</span></h3><p>Gráficas de carga, adherencia al 11+ y banderas de wellness.</p></div>
+    <div class="card"><h3>RPE y wellness del jugador <span class="route">/rpe/[token]</span> <span class="route">/wellness/[token]</span></h3><p>Formularios públicos con enlace personal (fase 3; antes, Google Forms con el mismo diseño de preguntas).</p></div>
 
     <div class="callout">
       <p><strong>El módulo de lesiones va aparte y llega el último.</strong> Solo dentro de la zona con login, con credenciales propias y registro de quién accede. En las primeras fases la app ni siquiera tiene llaves de ese archivo: es la garantía técnica de que los datos de salud de los menores quedan aislados.</p>
@@ -289,15 +641,64 @@
 
   <section id="datos">
     <span class="eyebrow">Base de datos</span>
-    <h2>Cuatro archivos de Sheets, cada uno con sus llaves</h2>
-    <div class="sheets">
-      <div class="sheet"><span class="route">MAESTRO_CLUB</span><span>jugadores con ID estable, equipos, mediciones de altura, control de consentimientos</span></div>
-      <div class="sheet"><span class="route">PRIMER_EQUIPO_26-27</span><span>sesiones, RPE, wellness, tests y análisis del primer equipo — uno por temporada</span></div>
-      <div class="sheet"><span class="route">BASE_CARGAS_26-27</span><span>planificación y asistencia de todo el fútbol base, compartido por los dos preparadores</span></div>
-      <div class="sheet"><span class="route">LESIONES_HISTORICO</span><span>permanente, solo IDs (nunca nombres), acceso restringido a personas concretas</span></div>
+    <h2>Cuatro archivos, un hilo conductor</h2>
+    <p class="id-legend"><span class="idtag">J-0007</span><span>Cada jugador tiene un ID estable para toda su vida en el club. Ese ID es el hilo que conecta los cuatro archivos — y <strong>su nombre solo existe en el maestro</strong>.</span></p>
+
+    <div class="db">
+      <div class="db-file">
+        <div class="db-head"><span class="route">MAESTRO_CLUB</span><span class="who">· los 3 preparadores · permanente</span></div>
+        <div class="tbl-scroll">
+          <table class="mini">
+            <tr><th>player_id</th><th>nombre</th><th>equipo</th><th>estado_phv</th></tr>
+            <tr><td class="pid">J-0007</td><td>Marc P.</td><td>INF-A</td><td>circa</td></tr>
+            <tr><td class="dim">J-0012</td><td class="dim">Biel S.</td><td class="dim">INF-A</td><td class="dim">pre</td></tr>
+            <tr><td class="dim">J-0031</td><td class="dim">Andreu C.</td><td class="dim">SENIOR</td><td class="dim">—</td></tr>
+          </table>
+        </div>
+        <p class="note">La única tabla que une ID ↔ identidad. También: equipos, mediciones de altura y control de consentimientos.</p>
+      </div>
+
+      <div class="db-file">
+        <div class="db-head"><span class="route">BASE_CARGAS_26-27</span><span class="who">· 2 preparadores + la app · uno por temporada</span></div>
+        <div class="tbl-scroll">
+          <table class="mini">
+            <tr><th>fecha</th><th>player_id</th><th>sesion</th><th>min</th></tr>
+            <tr><td>2026-09-09</td><td class="pid">J-0007</td><td>S-0214</td><td>75</td></tr>
+            <tr><td class="dim">2026-09-09</td><td class="dim">J-0012</td><td class="dim">S-0214</td><td class="dim">75</td></tr>
+            <tr><td class="dim">2026-09-10</td><td class="dim">J-0044</td><td class="dim">S-0215</td><td class="dim">60</td></tr>
+          </table>
+        </div>
+        <p class="note">Planificación y asistencia de todo el fútbol base. Los minutos suman horas de exposición: el denominador que hace comparables las lesiones.</p>
+      </div>
+
+      <div class="db-file">
+        <div class="db-head"><span class="route">PRIMER_EQUIPO_26-27</span><span class="who">· preparador del primer equipo · uno por temporada</span></div>
+        <div class="tbl-scroll">
+          <table class="mini">
+            <tr><th>player_id</th><th>rpe</th><th>min</th><th>carga_ua</th></tr>
+            <tr><td class="pid">J-0031</td><td>7</td><td>85</td><td>595</td></tr>
+            <tr><td class="dim">J-0035</td><td class="dim">6</td><td class="dim">85</td><td class="dim">510</td></tr>
+            <tr><td class="dim">J-0038</td><td class="dim">8</td><td class="dim">70</td><td class="dim">560</td></tr>
+          </table>
+        </div>
+        <p class="note">RPE, wellness, tests y análisis del primer equipo. La carga se calcula sola: RPE × minutos.</p>
+      </div>
+
+      <div class="db-file">
+        <div class="db-head"><span class="route">LESIONES_HISTORICO</span><span class="lock">acceso restringido</span><span class="who">· permanente</span></div>
+        <div class="tbl-scroll">
+          <table class="mini">
+            <tr><th>player_id</th><th>region</th><th>tipo</th><th>dias_baja</th></tr>
+            <tr><td class="pid">J-0007</td><td>rodilla</td><td>crecimiento</td><td>12</td></tr>
+            <tr><td class="dim">J-0058</td><td class="dim">tobillo</td><td class="dim">esguince</td><td class="dim">9</td></tr>
+            <tr><td class="dim">J-0031</td><td class="dim">isquios</td><td class="dim">muscular</td><td class="dim">18</td></tr>
+          </table>
+        </div>
+        <p class="note"><strong>Sin nombres.</strong> Quien acceda solo a este archivo no puede saber quién es J-0007: la identidad exige además la llave del maestro. Desplegables cerrados según el estándar FIFA/UEFA.</p>
+      </div>
     </div>
+
     <ul>
-      <li>Cada jugador conserva su ID toda su vida en el club: el histórico aguanta años y cambios de categoría.</li>
       <li>Las pestañas donde escriben los formularios no se tocan a mano; el análisis se calcula al lado con fórmulas.</li>
       <li>Copia de seguridad automática cada semana y exportación mensual, con un pequeño script gratuito de Google.</li>
     </ul>
@@ -306,13 +707,46 @@
   <section id="metodo">
     <span class="eyebrow">Metodología</span>
     <h2>El método, en un minuto</h2>
+
+    <div class="micro">
+      <div class="chart-title">Microciclo tipo del primer equipo · % de carga respecto al partido</div>
+      <svg class="chart-svg" viewBox="0 0 560 150" role="img" aria-label="Semana tipo: martes fuerza al 65 por ciento, jueves pico de resistencia al 90, viernes velocidad al 45, domingo partido al 100">
+        <line x1="10" y1="122" x2="550" y2="122" stroke="var(--line)" stroke-width="1"/>
+        <g>
+          <rect x="28"  y="120" width="44" height="2"  rx="1" fill="var(--line)"/>
+          <rect x="104" y="70"  width="44" height="52" rx="4" fill="var(--data)"/>
+          <rect x="180" y="120" width="44" height="2"  rx="1" fill="var(--line)"/>
+          <rect x="256" y="50"  width="44" height="72" rx="4" fill="var(--data)"/>
+          <rect x="332" y="86"  width="44" height="36" rx="4" fill="var(--data)"/>
+          <rect x="408" y="120" width="44" height="2"  rx="1" fill="var(--line)"/>
+          <rect x="484" y="42"  width="44" height="80" rx="4" fill="var(--accent)"/>
+        </g>
+        <text x="278" y="42" font-size="11" font-weight="700" fill="var(--ink)" text-anchor="middle">PICO</text>
+        <text x="506" y="34" font-size="11" font-weight="700" fill="var(--accent)" text-anchor="middle">PARTIDO</text>
+        <g font-size="11" fill="var(--muted)" text-anchor="middle">
+          <text x="50"  y="138">Lun</text><text x="126" y="138">Mar</text><text x="202" y="138">Mié</text>
+          <text x="278" y="138">Jue</text><text x="354" y="138">Vie</text><text x="430" y="138">Sáb</text>
+          <text x="506" y="138">Dom</text>
+        </g>
+        <g font-size="9.5" fill="var(--muted)" text-anchor="middle">
+          <text x="126" y="64">fuerza</text>
+          <text x="278" y="150" opacity="0">.</text>
+          <text x="354" y="80">velocidad</text>
+        </g>
+      </svg>
+      <div class="micro-legend">
+        <span><i style="background:var(--data)"></i>Entrenamiento (mar: fuerza en espacios reducidos · jue: resistencia específica · vie: velocidad + estrategia)</span>
+        <span><i style="background:var(--accent)"></i>Partido</span>
+      </div>
+    </div>
+
     <ul>
-      <li><strong>Semana tipo del primer equipo</strong> (martes–jueves–viernes + partido): martes fuerza en espacios reducidos, jueves el día pico de resistencia específica, viernes velocidad y estrategia con poco volumen. Un solo pico semanal, descarga hacia el partido.</li>
+      <li><strong>Un solo pico semanal y descarga hacia el partido</strong> — la regla que se conserva aunque cambien los días de entrenamiento.</li>
       <li><strong>RPE de Foster:</strong> a los ~30 minutos de acabar, cada jugador responde "¿cómo ha sido tu entrenamiento?" (0–10). RPE × minutos = carga de la sesión. De ahí salen carga semanal, monotonía y strain.</li>
-      <li><strong>Wellness por tendencia individual:</strong> cada jugador se compara consigo mismo, nunca con umbrales universales. Coherente con el enfoque de Pol: el dato abre diálogo.</li>
-      <li><strong>Fútbol base por madurez:</strong> coordinación y velocidad en los pequeños, fuerza tras el estirón, potencia y prevención en juveniles. El estirón se detecta midiendo altura cada 3 meses.</li>
-      <li><strong>FIFA 11+ Kids / 11+</strong> como calentamiento oficial en todas las sesiones: es la prevención con mejor evidencia que existe (hasta −48% de lesiones, −74% de las graves, con buena adherencia).</li>
-      <li><strong>Lesiones al estándar internacional:</strong> se registra lo que causa baja, con desplegables cerrados (sin texto médico), y se mide en lesiones y días de baja por cada 1.000 horas de exposición.</li>
+      <li><strong>Wellness por tendencia individual:</strong> cada jugador se compara consigo mismo, nunca con umbrales universales. Una bandera abre una conversación, no una decisión automática.</li>
+      <li><strong>Fútbol base por madurez:</strong> coordinación y velocidad en los pequeños, fuerza tras el estirón, potencia y prevención en juveniles.</li>
+      <li><strong>FIFA 11+ Kids / 11+</strong> como calentamiento oficial en todas las sesiones: la prevención con mejor evidencia que existe (hasta −48% de lesiones, −74% de las graves, con buena adherencia).</li>
+      <li><strong>Lesiones al estándar internacional:</strong> se registra lo que causa baja, con desplegables cerrados, y se mide en lesiones y días de baja por cada 1.000 horas de exposición.</li>
     </ul>
     <div class="callout green">
       <p><strong>Requisito legal resuelto desde el diseño:</strong> las lesiones son datos de salud de menores. Consentimiento explícito de los tutores en la inscripción, solo IDs en el archivo, acceso restringido y plazo de conservación definido. Sin consentimiento, no se registra a ese jugador.</p>
@@ -343,7 +777,7 @@
       <div class="phase-body">
         <h3>La app de los preparadores</h3>
         <span class="when">Sep–dic 2026</span>
-        <p>Dashboard web del fútbol base: planificar, pasar lista y ver el estado de cada equipo desde el móvil. Login con Google, solo los dos preparadores.</p>
+        <p>El dashboard de las pantallas simuladas arriba: planificar, pasar lista y ver el estado de cada equipo desde el móvil. Login con Google, solo los dos preparadores.</p>
       </div>
     </div>
     <div class="phase">
@@ -377,8 +811,35 @@
   </section>
 
   <footer>
+    <p>Las pantallas y los datos de esta página son una <strong>simulación con datos ficticios</strong> para visualizar el proyecto antes de construirlo.</p>
     <p>Documentación completa en el proyecto: <code>docs/01</code> visión · <code>docs/02</code> datos · <code>docs/03</code> arquitectura · <code>docs/04</code> metodología · <code>docs/05</code> plan · <code>docs/06</code> decisiones · <code>docs/07</code> plataforma · <code>docs/08</code> despliegue, más 5 informes de investigación con fuentes en <code>docs/research/</code>.</p>
   </footer>
 </div>
+
+<script>
+  // Simulación: toggles del pase de lista
+  document.querySelectorAll('.att-row').forEach(function (row) {
+    function flip() {
+      row.classList.toggle('off');
+      var on = !row.classList.contains('off');
+      row.setAttribute('aria-checked', on ? 'true' : 'false');
+      row.querySelector('.min').textContent = on ? "75'" : '—';
+      var count = document.querySelectorAll('.att-row:not(.off)').length;
+      var c = document.getElementById('att-count');
+      if (c) c.textContent = count;
+    }
+    row.addEventListener('click', flip);
+    row.addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flip(); }
+    });
+  });
+  // Simulación: selector RPE
+  document.querySelectorAll('.rpe-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.rpe-btn').forEach(function (b) { b.classList.remove('sel'); });
+      btn.classList.add('sel');
+    });
+  });
+</script>
 
 </html>
