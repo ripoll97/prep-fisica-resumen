@@ -171,6 +171,53 @@
     font-size: 0.8rem; background: var(--code-bg); padding: 0.1rem 0.35rem; border-radius: 4px;
   }
 
+  /* ============ Sincronización ============ */
+  .sync-timeline {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.1rem 1.1rem 0.9rem; margin: 1.25rem 0;
+  }
+  .sync-row { display: flex; align-items: center; gap: 0.65rem; margin-top: 0.7rem; }
+  .sync-row:first-of-type { margin-top: 0.6rem; }
+  .sync-who {
+    flex: 0 0 auto; width: 4.2rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.72rem; font-weight: 700; line-height: 1.25;
+  }
+  .sync-who span { display: block; font-weight: 400; color: var(--muted); font-size: 0.66rem; }
+  .sync-track { position: relative; flex: 1; height: 30px; background: var(--code-bg); border-radius: 8px; overflow: hidden; }
+  .sync-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 8px; }
+  .sync-fill.ok { width: 100%; background: var(--green-soft); border: 1px solid var(--green); }
+  .sync-fill.wait { width: 100%; background: var(--amber-soft); border: 1px dashed var(--amber); }
+  .sync-tag {
+    position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.68rem; font-weight: 700; white-space: nowrap;
+  }
+  .sync-tag.ok { color: var(--green); }
+  .sync-tag.wait { color: var(--amber); }
+  .sync-axis {
+    display: flex; justify-content: space-between; margin: 0.5rem 0 0 4.85rem;
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace; font-size: 0.65rem; color: var(--muted);
+  }
+  .sync-note { font-size: 0.85rem; color: var(--muted); margin: 0.8rem 0 0; }
+
+  .sync-compare { display: grid; gap: 0.85rem; margin: 1.25rem 0; }
+  .sync-card { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem 1rem 2.7rem; }
+  .sync-card-icon {
+    position: absolute; left: 1rem; top: 1.05rem; width: 1.4rem; height: 1.4rem; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 800; font-size: 0.8rem;
+  }
+  .sync-card.ok .sync-card-icon { background: var(--green-soft); color: var(--green); }
+  .sync-card.warn .sync-card-icon { background: var(--amber-soft); color: var(--amber); }
+  .sync-card h3 { margin: 0 0 0.3rem; font-size: 0.95rem; }
+  .sync-card p { margin: 0; font-size: 0.9rem; color: var(--muted); }
+  .sync-toast {
+    margin-top: 0.7rem; background: var(--accent-soft); border: 1px solid var(--accent); color: var(--ink);
+    border-radius: 8px; padding: 0.6rem 0.8rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.82rem; font-weight: 600;
+  }
+
   /* ============ SIMULACIÓN: teléfonos ============ */
   .demo-note {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -368,6 +415,7 @@
   <nav class="toc" aria-label="Secciones">
     <a href="#pilares">Pilares</a>
     <a href="#como">Cómo funciona</a>
+    <a href="#sync">Sincronización</a>
     <a href="#app">La app</a>
     <a href="#datos">Los datos</a>
     <a href="#metodo">El método</a>
@@ -410,6 +458,52 @@
       <li><strong>La app se instala como una aplicación</strong> en el móvil (PWA): abre al instante y muestra los últimos datos aunque en el campo haya mala cobertura; lo que no se pueda enviar se reintenta solo.</li>
       <li><strong>Sin migraciones nunca:</strong> cada fase del proyecto añade una capa sobre los mismos archivos.</li>
     </ul>
+  </section>
+
+  <section id="sync">
+    <span class="eyebrow">Arquitectura</span>
+    <h2>¿Y si los dos preparadores tocan lo mismo a la vez?</h2>
+    <p>No hay conexión en vivo con Sheets: cada pantalla sirve datos con un caché de 60 segundos. Quien guarda un cambio lo ve <strong>al instante</strong>; el resto lo ve en cuanto ese caché expira, o antes si desliza para refrescar.</p>
+
+    <div class="sync-timeline">
+      <div class="chart-title">Preparador A guarda una sesión — qué ve cada uno</div>
+      <div class="sync-row">
+        <div class="sync-who">Preparador A <span>guarda</span></div>
+        <div class="sync-track">
+          <div class="sync-fill ok"></div>
+          <span class="sync-tag ok">✓ ve su cambio al instante</span>
+        </div>
+      </div>
+      <div class="sync-row">
+        <div class="sync-who">Preparador B <span>su móvil</span></div>
+        <div class="sync-track">
+          <div class="sync-fill wait"></div>
+          <span class="sync-tag wait">sigue viendo el dato anterior</span>
+        </div>
+      </div>
+      <div class="sync-axis"><span>0 s</span><span>30 s</span><span>60 s máx.</span></div>
+      <p class="sync-note">A los 60 segundos como mucho, B ve el cambio de A sin hacer nada — o al instante si desliza para refrescar. Con dos preparadores mirando cosas distintas la mayor parte del tiempo, esta espera casi nunca se nota.</p>
+    </div>
+
+    <p>Queda una pregunta más fina: si los dos escriben <strong>a la vez sobre el mismo dato</strong>, ¿puede perderse algo? Depende de qué tipo de guardado sea:</p>
+
+    <div class="sync-compare">
+      <div class="sync-card ok">
+        <div class="sync-card-icon">✓</div>
+        <h3>Altas — pase de lista, RPE, wellness, nueva sesión</h3>
+        <p>Cada guardado añade una fila nueva a Sheets. Dos altas simultáneas nunca se pisan, aunque lleguen en el mismo segundo. Es el 90% de lo que hace la app a diario.</p>
+      </div>
+      <div class="sync-card warn">
+        <div class="sync-card-icon">!</div>
+        <h3>Ediciones — corregir una sesión, cerrar una lesión</h3>
+        <p>Aquí sí se podría sobrescribir un cambio ajeno. Por eso, antes de guardar, la app comprueba que nadie ha tocado esa fila mientras tanto. Si alguien se adelantó, no se guarda a ciegas:</p>
+        <div class="sync-toast">⚠ Esto se ha modificado desde que lo abriste. Revisa antes de guardar.</div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <p><strong>Nada de esto necesita infraestructura nueva.</strong> Es una comprobación de una docena de líneas antes de los pocos guardados que editan algo ya existente — coherente con el resto del proyecto: la solución justa para dos usuarios, no una plataforma de tiempo real que nadie va a necesitar.</p>
+    </div>
   </section>
 
   <section id="app">
