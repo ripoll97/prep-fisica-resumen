@@ -226,6 +226,16 @@
   }
   .demo-note .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex: 0 0 auto; }
 
+  .demo-cta {
+    display: block; margin: 0 0 1.25rem; padding: 0.9rem 1.1rem;
+    background: var(--accent); color: var(--accent-ink); text-decoration: none;
+    border-radius: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1rem; font-weight: 800; line-height: 1.3;
+  }
+  .demo-cta small { display: block; font-weight: 400; font-size: 0.8rem; opacity: 0.85; margin-top: 0.2rem; }
+  .demo-cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
   .phones {
     display: flex; gap: 1.1rem; overflow-x: auto;
     scroll-snap-type: x mandatory; padding: 0.25rem 0.1rem 1.1rem;
@@ -511,6 +521,8 @@
     <h2>Así se verá en el móvil</h2>
     <p>Cinco pantallas simuladas con datos ficticios, diseñadas para usarse <strong>de pie, en el campo, con una mano y a pleno sol</strong>: botones grandes, navegación inferior, alto contraste.</p>
     <p class="demo-note"><span class="dot"></span>Desliza para ver las pantallas. En "Pase de lista" y "RPE" puedes tocar: los toggles y los números responden.</p>
+
+    <a class="demo-cta" href="https://ripoll97.github.io/prep-fisica-resumen/demo/">Abrir la demo navegable a pantalla completa ›<small>Todas las pantallas grandes, con navegación real entre ellas — para enseñar la app antes de construirla</small></a>
 
     <div class="phones" aria-label="Simulación de pantallas de la app">
 

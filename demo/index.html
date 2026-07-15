@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Demo · Preparación Física</title>
+<style>
+  :root {
+    --bg: #F4F2ED;
+    --surface: #FFFFFF;
+    --ink: #221D1A;
+    --muted: #6E655E;
+    --line: #E4DFD6;
+    --accent: #B3202C;
+    --accent-ink: #FFFFFF;
+    --accent-soft: rgba(179, 32, 44, 0.08);
+    --green: #2E7D4F;
+    --green-soft: rgba(46, 125, 79, 0.12);
+    --amber: #9A6A00;
+    --amber-soft: rgba(154, 106, 0, 0.13);
+    --data: #3E6990;
+    --data-soft: rgba(62, 105, 144, 0.14);
+    --page: #E9E6DF;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141311; --surface: #1E1C19; --ink: #EDE8E1; --muted: #A39A90;
+      --line: #34302A; --accent: #E2545E; --accent-ink: #1A0A0C;
+      --accent-soft: rgba(226, 84, 94, 0.12);
+      --green: #5BB98C; --green-soft: rgba(91, 185, 140, 0.14);
+      --amber: #D9A43B; --amber-soft: rgba(217, 164, 59, 0.15);
+      --data: #7FA6C9; --data-soft: rgba(127, 166, 201, 0.17);
+      --page: #0D0C0B;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--page); }
+  body {
+    margin: 0; color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px; line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font-family: inherit; color: inherit; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+
+  /* ===== marco de la app: pantalla completa en móvil, "teléfono" centrado en desktop ===== */
+  #app {
+    background: var(--bg); min-height: 100dvh;
+    max-width: 430px; margin: 0 auto;
+    display: flex; flex-direction: column; position: relative;
+  }
+  @media (min-width: 480px) {
+    body { padding: 24px 0; }
+    #app {
+      min-height: calc(100dvh - 48px); border-radius: 24px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.18); overflow: hidden;
+      border: 1px solid var(--line);
+    }
+  }
+
+  .sim-badge {
+    position: sticky; top: 0; z-index: 30;
+    background: var(--ink); color: var(--bg);
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    text-align: center; padding: 4px 8px;
+  }
+
+  main { flex: 1; padding: 14px 14px 90px; }
+
+  .view { display: none; }
+  .view.active { display: block; animation: fadein 0.18s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .view.active { animation: none; } }
+
+  /* ===== cabeceras de vista ===== */
+  .vhead { margin: 4px 0 14px; }
+  .vhead h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; margin: 0; line-height: 1.15; }
+  .vhead .sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .back {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: none; border: none; padding: 6px 8px 6px 0; margin: 0 0 2px -2px;
+    font-size: 14px; font-weight: 700; color: var(--accent); cursor: pointer;
+  }
+
+  /* ===== componentes base ===== */
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 14px; margin-bottom: 12px;
+  }
+  .k {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px;
+  }
+  .chip {
+    display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.03em;
+    padding: 3px 9px; border-radius: 999px; text-transform: uppercase; vertical-align: middle;
+  }
+  .chip.warn { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber); }
+  .chip.ok { background: var(--green-soft); color: var(--green); border: 1px solid var(--green); }
+  .chip.crit { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+  .dot.warn { background: var(--amber); } .dot.crit { background: var(--accent); } .dot.info { background: var(--data); } .dot.ok { background: var(--green); }
+
+  .btn {
+    display: block; width: 100%; border: none; border-radius: 14px;
+    background: var(--accent); color: var(--accent-ink);
+    font-size: 16px; font-weight: 800; padding: 15px; cursor: pointer; text-align: center;
+  }
+  .btn.secondary { background: var(--surface); color: var(--ink); border: 1.5px solid var(--line); }
+  .btn:active { transform: scale(0.99); }
+
+  .row-btn {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    background: none; border: none; border-top: 1px solid var(--line);
+    padding: 11px 2px; text-align: left; cursor: pointer; font-size: 14.5px;
+  }
+  .row-btn:first-of-type { border-top: none; }
+  .row-btn .grow { flex: 1; min-width: 0; }
+  .row-btn b { display: block; font-size: 14.5px; }
+  .row-btn small { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row-btn .chev { color: var(--muted); font-size: 18px; }
+  .hora { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; width: 48px; flex: 0 0 auto; }
+
+  .facts { display: flex; gap: 8px; margin-bottom: 12px; }
+  .fact { flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 8px; text-align: center; }
+  .fact b { display: block; font-size: 19px; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .fact span { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .chart-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .chart-svg { display: block; width: 100%; height: auto; }
+  .note { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-top: 6px; }
+  .note b.warn { color: var(--amber); }
+
+  /* ===== nav inferior ===== */
+  .bottomnav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 20;
+    max-width: 430px; margin: 0 auto;
+    display: flex; background: var(--surface); border-top: 1px solid var(--line);
+    padding: 6px 4px calc(10px + env(safe-area-inset-bottom));
+  }
+  @media (min-width: 480px) { .bottomnav { position: absolute; border-radius: 0 0 23px 23px; } }
+  .bottomnav button {
+    flex: 1; background: none; border: none; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    font-size: 10.5px; font-weight: 600; color: var(--muted); padding: 6px 2px;
+  }
+  .bottomnav button.on { color: var(--accent); }
+  .bottomnav svg { width: 24px; height: 24px; }
+  #app.no-nav .bottomnav { display: none; }
+  #app.no-nav main { padding-bottom: 20px; }
+
+  /* ===== toast ===== */
+  #toast {
+    position: fixed; bottom: 92px; left: 50%; transform: translateX(-50%) translateY(16px);
+    max-width: 380px; width: calc(100% - 48px); z-index: 40;
+    background: var(--ink); color: var(--bg); border-radius: 12px;
+    padding: 12px 16px; font-size: 14px; font-weight: 600; text-align: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ===== Hoy ===== */
+  .aviso { display: flex; gap: 9px; align-items: flex-start; padding: 8px 0; font-size: 13.5px; border-top: 1px solid var(--line); }
+  .aviso:first-of-type { border-top: none; }
+  .aviso .dot { margin-top: 5px; }
+  .aviso span { color: var(--muted); }
+  .aviso b { color: var(--ink); }
+  .aviso button { background: none; border: none; padding: 0; text-align: left; cursor: pointer; font-size: 13.5px; }
+
+  /* ===== Sesiones (semana) ===== */
+  .day { margin-bottom: 4px; }
+  .day-label {
+    font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--muted); margin: 14px 2px 6px;
+  }
+  .day-label.today { color: var(--accent); }
+  .rest { font-size: 13px; color: var(--muted); padding: 2px 2px 6px; }
+  .fab-space { height: 8px; }
+
+  /* ===== formulario nueva sesión ===== */
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 5px; }
+  .field input, .field select, .field textarea {
+    width: 100%; border: 1.5px solid var(--line); border-radius: 12px;
+    background: var(--surface); color: var(--ink);
+    font-size: 16px; padding: 12px; font-family: inherit;
+  }
+  .field textarea { min-height: 84px; resize: vertical; }
+  .seg { display: flex; gap: 8px; flex-wrap: wrap; }
+  .seg button {
+    border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px;
+    padding: 9px 14px; font-size: 13.5px; font-weight: 700; cursor: pointer;
+  }
+  .seg button.sel { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  /* ===== pase de lista ===== */
+  .att-row {
+    display: flex; align-items: center; gap: 10px; padding: 12px 2px;
+    border-top: 1px solid var(--line); cursor: pointer; user-select: none;
+  }
+  .att-row:first-of-type { border-top: none; }
+  .att-row .nom { flex: 1; font-size: 15px; font-weight: 600; }
+  .att-row .min { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; width: 34px; text-align: right; }
+  .toggle { width: 46px; height: 27px; border-radius: 999px; background: var(--green); position: relative; transition: background 0.15s; flex: 0 0 auto; }
+  .toggle::after {
+    content: ""; position: absolute; top: 3px; left: 22px; width: 21px; height: 21px;
+    border-radius: 50%; background: #fff; transition: left 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .att-row.off .toggle { background: var(--line); }
+  .att-row.off .toggle::after { left: 3px; }
+  .att-row.off .nom { color: var(--muted); text-decoration: line-through; }
+  @media (prefers-reduced-motion: reduce) { .toggle, .toggle::after { transition: none; } }
+
+  /* ===== jugadores ===== */
+  .search {
+    width: 100%; border: 1.5px solid var(--line); border-radius: 12px;
+    background: var(--surface); color: var(--ink); font-size: 16px; padding: 12px 14px; margin-bottom: 12px;
+  }
+  .search::placeholder { color: var(--muted); }
+  .team-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 16px 2px 6px; }
+  .player-row {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px; margin-bottom: 8px; cursor: pointer; text-align: left; font-size: 15px;
+  }
+  .player-row b { flex: 1; font-weight: 700; }
+  .player-row .pid { font-size: 11.5px; color: var(--muted); font-family: ui-monospace, Consolas, monospace; }
+
+  /* ===== ficha ===== */
+  .hist-item { display: flex; gap: 9px; align-items: flex-start; padding: 9px 0; font-size: 13.5px; border-top: 1px solid var(--line); }
+  .hist-item:first-of-type { border-top: none; }
+  .hist-item .dot { margin-top: 5px; }
+  .hist-item span { color: var(--muted); }
+  .hist-item b { color: var(--ink); }
+
+  /* ===== cargas ===== */
+  .teamseg { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 12px; }
+  .teamseg button {
+    flex: 0 0 auto; border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px;
+    padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
+  }
+  .teamseg button.sel { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+
+  /* ===== RPE jugador ===== */
+  .rpe-q { font-size: 22px; font-weight: 800; line-height: 1.2; margin: 6px 0 16px; letter-spacing: -0.01em; }
+  .rpe-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .rpe-btn {
+    aspect-ratio: 1.1; border-radius: 16px; border: 1.5px solid var(--line);
+    background: var(--surface); font-size: 22px; font-weight: 800; cursor: pointer;
+  }
+  .rpe-btn.sel { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .rpe-hint { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); margin: 8px 2px 16px; }
+  .stepper {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px;
+    padding: 10px 12px; margin-bottom: 16px;
+  }
+  .stepper span { font-size: 14px; font-weight: 700; }
+  .stepper .ctrl { display: flex; align-items: center; gap: 14px; }
+  .stepper button {
+    width: 42px; height: 42px; border-radius: 12px; border: 1.5px solid var(--line);
+    background: var(--bg); font-size: 20px; font-weight: 800; cursor: pointer;
+  }
+  .stepper b { font-size: 22px; font-variant-numeric: tabular-nums; min-width: 44px; text-align: center; }
+  .rpe-done { text-align: center; padding: 40px 10px; }
+  .rpe-done .big { font-size: 52px; line-height: 1; }
+  .rpe-done h2 { font-size: 22px; margin: 14px 0 6px; }
+  .rpe-done p { color: var(--muted); font-size: 14.5px; margin: 0; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="sim-badge">Simulación · datos ficticios · así funcionará la app</div>
+  <main>
+
+    <!-- ================================ HOY ================================ -->
+    <section class="view active" id="view-hoy">
+      <div class="vhead">
+        <h1>Hoy</h1>
+        <div class="sub">Miércoles 9 de septiembre · temporada 2026-27</div>
+      </div>
+
+      <div class="card">
+        <div class="k">Sesiones de hoy</div>
+        <button class="row-btn" onclick="go('asistencia')">
+          <span class="hora">18:00</span>
+          <span class="grow"><b>Infantil A</b><small>11+ Kids nivel 3 · aceleración 10 m · 75 min</small></span>
+          <span class="chip ok">pasar lista</span>
+        </button>
+        <button class="row-btn" onclick="toast('Sesión de Cadete B — igual que la de Infantil A')">
+          <span class="hora">19:30</span>
+          <span class="grow"><b>Cadete B</b><small>FIFA 11+ · fuerza básica + juego reducido · 80 min</small></span>
+          <span class="chev">›</span>
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="k">Avisos</div>
+        <div class="aviso"><span class="dot warn"></span><button onclick="go('ficha')"><b>Marc P. y 1 más en pleno estirón</b> <span>(Infantil A) — moderar volumen de impacto. Toca para ver la ficha.</span></button></div>
+        <div class="aviso"><span class="dot crit"></span><span><b>1 lesionado activo</b> <span>(Cadete B) — esguince de tobillo, día 6 de baja</span></span></div>
+        <div class="aviso"><span class="dot info"></span><span><b>Medición trimestral pendiente</b> <span>— Alevín B, antes del 20 de septiembre</span></span></div>
+      </div>
+
+      <div class="card">
+        <div class="k">Esta semana · fútbol base</div>
+        <div class="facts" style="margin-bottom:0;">
+          <div class="fact"><b>9</b><span>sesiones</span></div>
+          <div class="fact"><b>92%</b><span>adherencia 11+</span></div>
+          <div class="fact"><b>142 h</b><span>exposición</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="k">¿Qué ve el jugador?</div>
+        <button class="row-btn" onclick="go('rpe')">
+          <span class="grow"><b>Formulario RPE post-sesión</b><small>lo que recibe cada jugador en su enlace personal</small></span>
+          <span class="chev">›</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================================ SESIONES ================================ -->
+    <section class="view" id="view-sesiones">
+      <div class="vhead">
+        <h1>Sesiones</h1>
+        <div class="sub">Semana del 7 al 13 de septiembre</div>
+      </div>
+
+      <button class="btn" onclick="go('nueva')">+ Nueva sesión</button>
+      <div class="fab-space"></div>
+
+      <div class="day">
+        <div class="day-label">Lunes 7</div>
+        <div class="rest">Descanso — sin sesiones</div>
+      </div>
+      <div class="day">
+        <div class="day-label">Martes 8</div>
+        <div class="card" style="padding:6px 14px;">
+          <button class="row-btn" onclick="toast('Detalle de sesión — editar, cerrar con RPE estimado, pasar lista')">
+            <span class="hora">18:00</span>
+            <span class="grow"><b>Alevín B</b><small>11+ Kids N2 · coordinación y frecuencia · hecho ✓</small></span>
+            <span class="chev">›</span>
+          </button>
+          <button class="row-btn" onclick="toast('Detalle de sesión')">
+            <span class="hora">19:30</span>
+            <span class="grow"><b>Juvenil A</b><small>FIFA 11+ · fuerza + Nordic · hecho ✓</small></span>
+            <span class="chev">›</span>
+          </button>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label today">Miércoles 9 · hoy</div>
+        <div class="card" style="padding:6px 14px; border-color: var(--accent);">
+          <button class="row-btn" onclick="go('asistencia')">
+            <span class="hora">18:00</span>
+            <span class="grow"><b>Infantil A</b><small>11+ Kids N3 · aceleración 10 m</small></span>
+            <span class="chip ok">pasar lista</span>
+          </button>
+          <button class="row-btn" onclick="toast('Detalle de sesión')">
+            <span class="hora">19:30</span>
+            <span class="grow"><b>Cadete B</b><small>FIFA 11+ · fuerza básica + juego reducido</small></span>
+            <span class="chev">›</span>
+          </button>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Jueves 10</div>
+        <div class="card" style="padding:6px 14px;">
+          <button class="row-btn" onclick="toast('Detalle de sesión')">
+            <span class="hora">18:00</span>
+            <span class="grow"><b>Benjamín A</b><small>11+ Kids N1 · ABC y equilibrio · preparador: Joan</small></span>
+            <span class="chev">›</span>
+          </button>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Viernes 11</div>
+        <div class="card" style="padding:6px 14px;">
+          <button class="row-btn" onclick="toast('Detalle de sesión')">
+            <span class="hora">18:00</span>
+            <span class="grow"><b>Infantil A</b><small>11+ Kids N3 · velocidad + juego · preparador: Joan</small></span>
+            <span class="chev">›</span>
+          </button>
+          <button class="row-btn" onclick="toast('Detalle de sesión')">
+            <span class="hora">19:30</span>
+            <span class="grow"><b>Cadete B + Juvenil A</b><small>FIFA 11+ · sesión conjunta pre-partido</small></span>
+            <span class="chev">›</span>
+          </button>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sábado 12 · partidos</div>
+        <div class="rest">Los minutos de partido se apuntan como asistencia de la sesión "partido".</div>
+      </div>
+    </section>
+
+    <!-- ================================ NUEVA SESIÓN ================================ -->
+    <section class="view" id="view-nueva">
+      <div class="vhead">
+        <button class="back" onclick="go('sesiones')">‹ Sesiones</button>
+        <h1>Nueva sesión</h1>
+        <div class="sub">Todo en una pantalla — pensado para rellenarse en 30 segundos</div>
+      </div>
+
+      <div class="field">
+        <label>Equipo</label>
+        <div class="seg" id="seg-equipo">
+          <button class="sel" type="button">Infantil A</button>
+          <button type="button">Cadete B</button>
+          <button type="button">Alevín B</button>
+          <button type="button">Benjamín A</button>
+          <button type="button">Juvenil A</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Fecha y hora</label>
+        <input type="text" value="Vie 11 sep · 18:00" readonly onclick="toast('En la app real: selector de fecha y hora')">
+      </div>
+      <div class="field">
+        <label>Objetivo del día</label>
+        <input type="text" placeholder="p. ej. velocidad de aceleración" value="Velocidad + juego reducido">
+      </div>
+      <div class="field">
+        <label>Calentamiento preventivo</label>
+        <div class="seg" id="seg-calent">
+          <button type="button">11+ Kids N2</button>
+          <button class="sel" type="button">11+ Kids N3</button>
+          <button type="button">11+ Kids N4</button>
+          <button type="button">FIFA 11+</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Bloque principal</label>
+        <textarea>Salidas 10 m desde distintas posiciones (6×), 3v3 con porterías pequeñas (4×3'), rondo final.</textarea>
+      </div>
+      <div class="field">
+        <label>Duración (minutos)</label>
+        <input type="text" inputmode="numeric" value="75">
+      </div>
+      <button class="btn" onclick="toast('Sesión guardada ✓ (simulación)'); go('sesiones')">Guardar sesión</button>
+    </section>
+
+    <!-- ================================ PASE DE LISTA ================================ -->
+    <section class="view" id="view-asistencia">
+      <div class="vhead">
+        <button class="back" onclick="go('sesiones')">‹ Sesiones</button>
+        <h1>Pase de lista</h1>
+        <div class="sub">Infantil A · mié 9 sep · 75 min · toca para marcar ausencia</div>
+      </div>
+
+      <div class="card" style="padding:4px 14px;">
+        <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Marc P.</span><span class="min">75'</span><span class="toggle"></span></div>
+        <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Biel S.</span><span class="min">75'</span><span class="toggle"></span></div>
+        <div class="att-row off" role="switch" aria-checked="false" tabindex="0"><span class="nom">Toni M.</span><span class="min">—</span><span class="toggle"></span></div>
+        <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Pau R.</span><span class="min">75'</span><span class="toggle"></span></div>
+        <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Joan F.</span><span class="min">75'</span><span class="toggle"></span></div>
+        <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Lluc B.</span><span class="min">75'</span><span class="toggle"></span></div>
+        <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Nico A.</span><span class="min">75'</span><span class="toggle"></span></div>
+        <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Guillem T.</span><span class="min">75'</span><span class="toggle"></span></div>
+        <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Àlex V.</span><span class="min">75'</span><span class="toggle"></span></div>
+        <div class="att-row" role="switch" aria-checked="true" tabindex="0"><span class="nom">Sergi D.</span><span class="min">75'</span><span class="toggle"></span></div>
+      </div>
+      <p class="note">Estos minutos suman las <b>horas de exposición</b> del equipo: el denominador que hace comparables las lesiones entre categorías y temporadas.</p>
+      <button class="btn" onclick="toast('Asistencia guardada ✓ (simulación)'); go('hoy')">Guardar asistencia (<span id="att-count">9</span>/10)</button>
+    </section>
+
+    <!-- ================================ JUGADORES ================================ -->
+    <section class="view" id="view-jugadores">
+      <div class="vhead">
+        <h1>Jugadores</h1>
+        <div class="sub">Fútbol base · 5 equipos · 78 jugadores activos</div>
+      </div>
+
+      <input class="search" id="player-search" type="search" placeholder="Buscar jugador…" oninput="filterPlayers(this.value)">
+
+      <div class="team-label">Infantil A</div>
+      <button class="player-row" data-name="marc p" onclick="go('ficha')"><b>Marc P.</b><span class="chip warn">circa-PHV</span><span class="pid">J-0007</span></button>
+      <button class="player-row" data-name="biel s" onclick="toast('Ficha de Biel S. — mismo formato')"><b>Biel S.</b><span class="pid">J-0012</span></button>
+      <button class="player-row" data-name="toni m" onclick="toast('Ficha de Toni M.')"><b>Toni M.</b><span class="chip warn">circa-PHV</span><span class="pid">J-0015</span></button>
+      <button class="player-row" data-name="pau r" onclick="toast('Ficha de Pau R.')"><b>Pau R.</b><span class="pid">J-0019</span></button>
+
+      <div class="team-label">Cadete B</div>
+      <button class="player-row" data-name="jordi c" onclick="toast('Ficha de Jordi C.')"><b>Jordi C.</b><span class="chip crit">lesionado</span><span class="pid">J-0058</span></button>
+      <button class="player-row" data-name="miquel a" onclick="toast('Ficha de Miquel A.')"><b>Miquel À.</b><span class="pid">J-0061</span></button>
+      <button class="player-row" data-name="rafel g" onclick="toast('Ficha de Rafel G.')"><b>Rafel G.</b><span class="pid">J-0064</span></button>
+
+      <div class="team-label">Alevín B</div>
+      <button class="player-row" data-name="pep l" onclick="toast('Ficha de Pep L.')"><b>Pep L.</b><span class="pid">J-0083</span></button>
+      <button class="player-row" data-name="tomeu f" onclick="toast('Ficha de Tomeu F.')"><b>Tomeu F.</b><span class="pid">J-0087</span></button>
+    </section>
+
+    <!-- ================================ FICHA JUGADOR ================================ -->
+    <section class="view" id="view-ficha">
+      <div class="vhead">
+        <button class="back" onclick="go('jugadores')">‹ Jugadores</button>
+        <h1>Marc P. <span class="chip warn">circa-PHV</span></h1>
+        <div class="sub">J-0007 · Infantil A · 13,4 años · en el club desde 2021</div>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><b>162</b><span>cm ahora</span></div>
+        <div class="fact"><b>8,2</b><span>cm/año</span></div>
+        <div class="fact"><b>24 h</b><span>expo. este mes</span></div>
+        <div class="fact"><b>N4</b><span>11+ kids</span></div>
+      </div>
+
+      <div class="card">
+        <div class="chart-title">Altura · mediciones trimestrales</div>
+        <svg class="chart-svg" viewBox="0 0 360 130" role="img" aria-label="Altura de 152 a 162 cm en cuatro mediciones; crecimiento acelerado por encima de 7 cm año">
+          <line x1="12" y1="106" x2="348" y2="106" stroke="var(--line)" stroke-width="1"/>
+          <polyline points="34,92 134,80 234,56 326,22" fill="none" stroke="var(--data)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="34" cy="92" r="5" fill="var(--data)"/>
+          <circle cx="134" cy="80" r="5" fill="var(--data)"/>
+          <circle cx="234" cy="56" r="5" fill="var(--data)"/>
+          <circle cx="326" cy="22" r="6.5" fill="var(--amber)" stroke="var(--surface)" stroke-width="2.5"/>
+          <text x="34" y="122" font-size="11" fill="var(--muted)" text-anchor="middle">sep</text>
+          <text x="134" y="122" font-size="11" fill="var(--muted)" text-anchor="middle">dic</text>
+          <text x="234" y="122" font-size="11" fill="var(--muted)" text-anchor="middle">mar</text>
+          <text x="326" y="122" font-size="11" fill="var(--muted)" text-anchor="middle">jun</text>
+          <text x="34" y="82" font-size="11" font-weight="700" fill="var(--ink)" text-anchor="middle">152</text>
+          <text x="326" y="12" font-size="12" font-weight="800" fill="var(--ink)" text-anchor="end">162 cm</text>
+        </svg>
+        <p class="note"><b class="warn">&gt; 7 cm/año → pleno estirón.</b> Recomendación automática: reducir volumen de impacto, vigilar rodilla (Osgood-Schlatter) y talón (Sever). Avisar al entrenador.</p>
+      </div>
+
+      <div class="card">
+        <div class="k">Historial en el club</div>
+        <div class="hist-item"><span class="dot crit"></span><span><b>Rodilla · lesión de crecimiento (Osgood-Schlatter)</b> · 12 días de baja · marzo 2027 · sin recidiva</span></div>
+        <div class="hist-item"><span class="dot info"></span><span><b>Subió de Alevín A a Infantil A</b> · julio 2026</span></div>
+        <div class="hist-item"><span class="dot ok"></span><span><b>11+ Kids nivel 4 de 5</b> · buena ejecución, técnica de caída consolidada</span></div>
+      </div>
+
+      <button class="btn secondary" onclick="toast('En la app real: formulario de altura y peso → MAESTRO_CLUB')">+ Registrar medición trimestral</button>
+    </section>
+
+    <!-- ================================ CARGAS ================================ -->
+    <section class="view" id="view-cargas">
+      <div class="vhead">
+        <h1>Cargas</h1>
+        <div class="sub">Análisis de carga y bienestar</div>
+      </div>
+
+      <div class="teamseg" id="teamseg">
+        <button class="sel" type="button">Primer equipo</button>
+        <button type="button">Infantil A</button>
+        <button type="button">Cadete B</button>
+        <button type="button">Juvenil A</button>
+      </div>
+
+      <div class="card">
+        <div class="chart-title">Carga semanal del equipo · sRPE (UA) · últimas 6 semanas</div>
+        <svg class="chart-svg" viewBox="0 0 360 170" role="img" aria-label="Barras de carga semanal entre 1480 y 2310 unidades, con una semana de descarga">
+          <line x1="8" y1="140" x2="352" y2="140" stroke="var(--line)" stroke-width="1"/>
+          <g fill="var(--data)">
+            <rect x="20"  y="52"  width="40" height="88"  rx="5"/>
+            <rect x="76"  y="40"  width="40" height="100" rx="5"/>
+            <rect x="132" y="32"  width="40" height="108" rx="5"/>
+            <rect x="188" y="70"  width="40" height="70"  rx="5" opacity="0.45"/>
+            <rect x="244" y="29"  width="40" height="111" rx="5"/>
+            <rect x="300" y="44"  width="40" height="96"  rx="5"/>
+          </g>
+          <text x="208" y="62" font-size="10.5" fill="var(--muted)" text-anchor="middle">descarga</text>
+          <text x="264" y="22" font-size="12" font-weight="800" fill="var(--ink)" text-anchor="middle">2310</text>
+          <g font-size="11" fill="var(--muted)" text-anchor="middle">
+            <text x="40" y="156">S1</text><text x="96" y="156">S2</text><text x="152" y="156">S3</text>
+            <text x="208" y="156">S4</text><text x="264" y="156">S5</text><text x="320" y="156">S6</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><b>1,4</b><span>monotonía</span></div>
+        <div class="fact"><b>3.230</b><span>strain (UA)</span></div>
+        <div class="fact"><b>86%</b><span>respuesta RPE</span></div>
+      </div>
+      <p class="note" style="margin:-4px 2px 12px;"><b style="color:var(--green);">Monotonía 1,4 &lt; 2,0 ✓</b> — se están alternando bien días duros y suaves. El ratio agudo:crónico se muestra solo como descriptor, nunca como alarma automática.</p>
+
+      <div class="card">
+        <div class="k">Banderas de wellness · hoy</div>
+        <div class="hist-item"><span class="dot warn"></span><span><b>Andreu C.</b> · <span>total 14/25, su media son 19 (−1,4 DE) — sueño y fatiga bajos. <b>Hablar antes de la sesión.</b></span></span></div>
+        <div class="hist-item"><span class="dot ok"></span><span>El resto de la plantilla, dentro de su rango habitual (18 de 21 han respondido)</span></div>
+      </div>
+
+      <div class="card">
+        <div class="chart-title">Wellness de Andreu C. · últimos 28 días (total sobre 25)</div>
+        <svg class="chart-svg" viewBox="0 0 360 110" role="img" aria-label="Tendencia de wellness estable alrededor de 19 con caída final a 14, marcada como bandera">
+          <rect x="10" y="34" width="340" height="26" fill="var(--green-soft)"/>
+          <text x="346" y="44" font-size="9.5" fill="var(--green)" text-anchor="end">su rango habitual</text>
+          <polyline points="10,46 45,42 80,48 115,44 150,40 185,47 220,43 255,45 290,50 325,78" fill="none" stroke="var(--data)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="325" cy="78" r="6.5" fill="var(--amber)" stroke="var(--surface)" stroke-width="2.5"/>
+          <text x="325" y="98" font-size="11" font-weight="800" fill="var(--amber)" text-anchor="middle">hoy: 14</text>
+        </svg>
+        <p class="note">Cada jugador se compara <b>consigo mismo</b>, nunca con umbrales universales. Una bandera abre una conversación, no una decisión automática.</p>
+      </div>
+    </section>
+
+    <!-- ================================ RPE JUGADOR ================================ -->
+    <section class="view" id="view-rpe">
+      <div class="vhead">
+        <button class="back" onclick="go('hoy')">‹ Volver a la vista del preparador</button>
+        <h1>Hola, Andreu</h1>
+        <div class="sub">Primer equipo · sesión del jueves 17 sep · enlace personal, sin login</div>
+      </div>
+
+      <div id="rpe-form">
+        <div class="rpe-q">¿Cómo ha sido tu entrenamiento?</div>
+        <div class="rpe-grid" role="radiogroup" aria-label="RPE de 0 a 10">
+          <button class="rpe-btn" type="button">0</button>
+          <button class="rpe-btn" type="button">1</button>
+          <button class="rpe-btn" type="button">2</button>
+          <button class="rpe-btn" type="button">3</button>
+          <button class="rpe-btn" type="button">4</button>
+          <button class="rpe-btn" type="button">5</button>
+          <button class="rpe-btn" type="button">6</button>
+          <button class="rpe-btn sel" type="button">7</button>
+          <button class="rpe-btn" type="button">8</button>
+          <button class="rpe-btn" type="button">9</button>
+          <button class="rpe-btn" type="button">10</button>
+        </div>
+        <div class="rpe-hint"><span>0 · reposo</span><span>10 · máximo esfuerzo</span></div>
+        <div class="stepper">
+          <span>Minutos de sesión</span>
+          <span class="ctrl">
+            <button type="button" onclick="stepMin(-5)">−</button>
+            <b id="min-val">85</b>
+            <button type="button" onclick="stepMin(5)">+</button>
+          </span>
+        </div>
+        <button class="btn" onclick="rpeDone()">Enviar</button>
+        <p class="note" style="text-align:center; margin-top:10px;">15 segundos y listo. Tu respuesta es confidencial: solo la ve el preparador.</p>
+      </div>
+
+      <div id="rpe-ok" class="rpe-done" style="display:none;">
+        <div class="big">✓</div>
+        <h2>¡Registrado!</h2>
+        <p>RPE <b id="rpe-sent">7</b> · <span id="min-sent">85</span> min → carga <b id="ua-sent">595</b> UA<br>Hasta mañana con el wellness 💪</p>
+        <div style="height:18px;"></div>
+        <button class="btn secondary" onclick="rpeReset()">Volver a probar</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================ NAV INFERIOR ================================ -->
+  <nav class="bottomnav" aria-label="Navegación principal">
+    <button data-nav="hoy" class="on" onclick="go('hoy')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Hoy
+    </button>
+    <button data-nav="sesiones" onclick="go('sesiones')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Sesiones
+    </button>
+    <button data-nav="jugadores" onclick="go('jugadores')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.2 3.4-5 6.5-5s5.7 1.8 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M15.5 15.3c2.8.2 5 1.7 5.8 4.7"/></svg>Jugadores
+    </button>
+    <button data-nav="cargas" onclick="go('cargas')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Cargas
+    </button>
+  </nav>
+
+  <div id="toast" role="status"></div>
+</div>
+
+<script>
+  // ---- navegación entre vistas ----
+  var navMap = { hoy: 'hoy', sesiones: 'sesiones', nueva: 'sesiones', asistencia: 'sesiones', jugadores: 'jugadores', ficha: 'jugadores', cargas: 'cargas', rpe: null };
+  function go(view) {
+    document.querySelectorAll('.view').forEach(function (v) { v.classList.remove('active'); });
+    document.getElementById('view-' + view).classList.add('active');
+    var navKey = navMap[view];
+    document.querySelectorAll('.bottomnav button').forEach(function (b) {
+      b.classList.toggle('on', b.dataset.nav === navKey);
+    });
+    document.getElementById('app').classList.toggle('no-nav', view === 'rpe');
+    window.scrollTo(0, 0);
+  }
+
+  // ---- toast ----
+  var toastTimer = null;
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  // ---- pase de lista ----
+  document.querySelectorAll('.att-row').forEach(function (row) {
+    function flip() {
+      row.classList.toggle('off');
+      var on = !row.classList.contains('off');
+      row.setAttribute('aria-checked', on ? 'true' : 'false');
+      row.querySelector('.min').textContent = on ? "75'" : '—';
+      document.getElementById('att-count').textContent = document.querySelectorAll('.att-row:not(.off)').length;
+    }
+    row.addEventListener('click', flip);
+    row.addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flip(); }
+    });
+  });
+
+  // ---- segmentos seleccionables (equipo, calentamiento, cargas) ----
+  ['seg-equipo', 'seg-calent', 'teamseg'].forEach(function (id) {
+    var seg = document.getElementById(id);
+    if (!seg) return;
+    seg.querySelectorAll('button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        seg.querySelectorAll('button').forEach(function (b) { b.classList.remove('sel'); });
+        btn.classList.add('sel');
+        if (id === 'teamseg' && btn.textContent.trim() !== 'Primer equipo') {
+          toast('En la app real: cambia los datos al equipo ' + btn.textContent.trim());
+        }
+      });
+    });
+  });
+
+  // ---- buscador de jugadores ----
+  function filterPlayers(q) {
+    q = q.trim().toLowerCase();
+    document.querySelectorAll('.player-row').forEach(function (row) {
+      row.style.display = row.dataset.name.indexOf(q) !== -1 ? '' : 'none';
+    });
+  }
+
+  // ---- RPE del jugador ----
+  var rpeSel = 7, minutes = 85;
+  document.querySelectorAll('.rpe-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.rpe-btn').forEach(function (b) { b.classList.remove('sel'); });
+      btn.classList.add('sel');
+      rpeSel = parseInt(btn.textContent, 10);
+    });
+  });
+  function stepMin(d) {
+    minutes = Math.min(180, Math.max(0, minutes + d));
+    document.getElementById('min-val').textContent = minutes;
+  }
+  function rpeDone() {
+    document.getElementById('rpe-sent').textContent = rpeSel;
+    document.getElementById('min-sent').textContent = minutes;
+    document.getElementById('ua-sent').textContent = rpeSel * minutes;
+    document.getElementById('rpe-form').style.display = 'none';
+    document.getElementById('rpe-ok').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+  function rpeReset() {
+    document.getElementById('rpe-form').style.display = '';
+    document.getElementById('rpe-ok').style.display = 'none';
+  }
+</script>
+</body>
+</html>
